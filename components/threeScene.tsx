@@ -15,10 +15,10 @@ export default function ThreeScene() {
 
         // Set up the Three.js scene
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(110, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 2000);
         const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current, alpha: true });
 
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(300, 300);
 
         const geometry = new THREE.BoxGeometry(2.5, 0.1, 1.5);
         const material = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
@@ -38,19 +38,19 @@ export default function ThreeScene() {
         screen.rotation.x = 1.2; 
         base.add(screen);
 
-        const keyboardGeometry = new THREE.BoxGeometry(2.4, 0.1, 1.2);
+        const keyboardGeometry = new THREE.BoxGeometry(2.4, 0.1, 0.9);
         const keyboardMaterial = new THREE.MeshBasicMaterial({ color: 0xc9c9c9 });
         const keyboard = new THREE.Mesh(keyboardGeometry, keyboardMaterial);
-        keyboard.position.set(0, 0.055, 0);
+        keyboard.position.set(0, 0.055, 0.3);
         base.add(keyboard);
 
-        // keyboard keys
-        const keyGeometry = new THREE.BoxGeometry(0.1, 0.01, 0.1);
-        const keyMaterial = new THREE.MeshBasicMaterial({ color: 0x000001 });
-        const key1 = new THREE.Mesh(keyGeometry, keyMaterial);
-        key1.position.set(-0.9, 0.055, 0.5);
-        base.add(key1);
+        // trackpad
 
+        const trackpadGeometry = new THREE.BoxGeometry(0.5, 0.05, 0.4);
+        const trackpadMaterial = new THREE.MeshBasicMaterial({ color: 0xc9c9c9 });
+        const trackpad = new THREE.Mesh(trackpadGeometry, trackpadMaterial);
+        trackpad.position.set(0, 0.055, -0.45);
+        base.add(trackpad);
 
         scene.add(base);
         camera.position.z = 5;

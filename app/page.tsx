@@ -10,7 +10,6 @@ export default function Home() {
         </h1>
       </div>
 
-      
       <ThreeScene />
 
       <div className="flex flex-col items-center justify-center w-full h-full z-1">
