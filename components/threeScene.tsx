@@ -31,6 +31,15 @@ export default function ThreeScene() {
         backscreen.rotation.x = 1.2; 
         base.add(backscreen);
 
+        // draw a circle
+        const circleGeometry = new THREE.CircleGeometry(0.3, 35);
+        const circleMaterial = new THREE.MeshBasicMaterial({ color: 0xc9c9c9 });
+        const circle = new THREE.Mesh(circleGeometry, circleMaterial);
+        circle.position.set(0, 0.7, 0.60);
+        circle.rotation.x = -0.35;
+        base.add(circle);
+
+
         const screenGeometry = new THREE.BoxGeometry(2.4, 0.01, 1.2);
         const screenMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
         const screen = new THREE.Mesh(screenGeometry, screenMaterial);
@@ -60,7 +69,6 @@ export default function ThreeScene() {
 
             base.rotation.x += 0.01;
             base.rotation.y += 0.01;
-            // screen.rotation.x += 0.1;
 
             renderer.render(scene, camera);
         };
