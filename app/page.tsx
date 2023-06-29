@@ -10,15 +10,13 @@ export default function Home() {
         </h1>
       </div>
 
+      
+      <ThreeScene />
+
       <div className="flex flex-col items-center justify-center w-full h-full z-1">
         <h1 className="text-9xl font-bold text-center">One Place.</h1>
         <h1 className="text-9xl font-bold text-center">Your Production.</h1>
       </div>
-
-      <div className="flex flex-col items-center justify-center h-1/2 z-0">
-        <ThreeScene />
-      </div>
-
 
       <div className="flex flex-col items-center justify-center w-full h-full z-1">
         <div className="flex flex-col items-center justify-center w-full h-full">
