@@ -15,7 +15,7 @@ export default function ThreeScene() {
 
         // Set up the Three.js scene
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 2000);
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 2000);
         const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current, alpha: true });
 
         renderer.setSize(300, 300);

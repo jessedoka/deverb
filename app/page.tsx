@@ -4,15 +4,15 @@ export default function Home() {
   return (
     <main className="flex flex-col h-screen items-center justify-between p-8">
       <title>Prodfy</title> 
-      <div className='hover:bg-[#000000] hover:text-white block px-3 py-2 rounded-md text-base ease-in-out duration-300 z-1'>
+      <div className='hover:bg-[#000000] hover:text-white block px-3 py-2 rounded-md text-base ease-in-out duration-300'>
         <h1 className="text-4xl font-bold text-center">
           Prodfy
         </h1>
       </div>
-
       <ThreeScene />
+      
 
-      <div className="flex flex-col items-center justify-center w-full h-full z-1">
+      <div className="flex flex-col items-center justify-center w-full h-full">
         <h1 className="text-9xl font-bold text-center">One Place.</h1>
         <h1 className="text-9xl font-bold text-center">Your Production.</h1>
       </div>
