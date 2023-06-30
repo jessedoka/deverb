@@ -18,7 +18,7 @@ export default function ThreeScene() {
         const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 2000);
         const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current, alpha: true });
 
-        renderer.setSize(300, 300);
+        renderer.setSize(200, 200);
 
         const geometry = new THREE.BoxGeometry(2.5, 0.1, 1.5);
         const material = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
