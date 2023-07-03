@@ -18,7 +18,7 @@ export default function ThreeScene() {
         const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 2000);
         const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current, alpha: true });
 
-        renderer.setSize(200, 200);
+        renderer.setSize(300, 200);
 
         const geometry = new THREE.BoxGeometry(2.5, 0.1, 1.5);
         const material = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
@@ -31,7 +31,7 @@ export default function ThreeScene() {
         backscreen.rotation.x = 1.2; 
         base.add(backscreen);
 
-        // draw a circle
+        // logo
         const circleGeometry = new THREE.CircleGeometry(0.3, 35);
         const circleMaterial = new THREE.MeshBasicMaterial({ color: 0xc9c9c9 });
         const circle = new THREE.Mesh(circleGeometry, circleMaterial);
