@@ -42,7 +42,7 @@ export default function Home() {
     
   return (
     <main className="flex flex-col h-screen items-center justify-between p-8">
-      <title>Strands</title> 
+      <title>Strand</title> 
 
       {/* flash message */}
       <div>
@@ -54,7 +54,7 @@ export default function Home() {
       </div>
       <div className='hover:bg-[#000000] hover:text-white mt-4 block px-3 py-2 rounded-md text-base ease-in-out duration-300'>
         <h1 className="text-4xl font-bold text-center">
-          Strands
+          Strand
         </h1>
       </div>
 
