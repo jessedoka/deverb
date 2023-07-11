@@ -3,7 +3,8 @@
 import ThreeScene from "@/components/threeScene"
 import { Database } from "@/lib/database.types"
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { ModeToggle } from '@/components/mode-toggle'
 
 export default function Home() {
   const [email, setEmail] = useState('')
@@ -52,10 +53,11 @@ export default function Home() {
           </div>
         )}
       </div>
-      <div className='dark:text-white mt-4 block px-3 py-2 rounded-md text-base ease-in-out duration-300'>
+      <div className='dark:text-white mt-4 flex gap-4 px-3 py-2 rounded-md text-base ease-in-out duration-300'>
         <h1 className="text-4xl font-bold text-center">
           Deverb
         </h1>
+        <ModeToggle/>
       </div>
 
       {/* hide on mobile */}
