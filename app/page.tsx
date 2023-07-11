@@ -41,20 +41,20 @@ export default function Home() {
   }
     
   return (
-    <main className="flex flex-col h-screen items-center justify-between p-8">
-      <title>Strands</title> 
+    <main className="flex flex-col h-screen items-center justify-between p-8"> 
 
       {/* flash message */}
       <div>
+         {/* theme indep */}
         {message && (
           <div className={`flex items-center justify-center w-full h-12 px-6 py-2 text-base text-white transition duration-200 ease-in-out rounded-lg ${message[1] === 0 ? 'bg-red-500' : 'bg-green-500'}`}>
             <p>{message[0]}</p>
           </div>
         )}
       </div>
-      <div className='hover:bg-[#000000] hover:text-white mt-4 block px-3 py-2 rounded-md text-base ease-in-out duration-300'>
+      <div className='dark:text-white mt-4 block px-3 py-2 rounded-md text-base ease-in-out duration-300'>
         <h1 className="text-4xl font-bold text-center">
-          Strands
+          Deverb
         </h1>
       </div>
 
@@ -80,11 +80,11 @@ export default function Home() {
               <input type="email" required
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                className="sm:w-1/2 h-12 px-6 py-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline" placeholder="Email"
+                className="sm:w-1/2 h-12 px-6 py-2 bg-[#ffffff] text-base border rounded-lg focus:shadow-outline" placeholder="Email"
               />
               <button
                 onClick={handleEmail}
-                className="w-1/2 h-12 px-6 py-2 mt-4 text-base font-semibold text-white transition duration-200 ease-in-out bg-black rounded-lg shadow-md hover:text-orange-500 hover:bg-gray-100">
+              className="w-1/2 h-12 px-6 py-2 mt-4 text-base font-semibold text-white dark:text-black hover:text-orange-500 transition duration-200 ease-in-out rounded-lg shadow-md dark:bg-white bg-slate-700">
                   {loading ? 'Loading...' : 'Notify Me'}
               </button>
             </div>
