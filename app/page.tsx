@@ -62,7 +62,7 @@ export default function Home() {
 
       {/* hide on mobile */}
       <div className="hidden md:block">
-        <ThreeScene />
+        <ThreeScene x={1} />
       </div>
 
       <div className="flex flex-col items-center justify-center w-full h-full">
@@ -72,7 +72,7 @@ export default function Home() {
 
       {/* show on mobile */}
       <div className="sm:hidden block">
-        <ThreeScene />
+        <ThreeScene x={2}/>
       </div>
 
       <div className="flex flex-col items-center justify-center w-full h-full z-1">
@@ -82,11 +82,11 @@ export default function Home() {
               <input type="email" required
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                className="sm:w-1/2 h-12 px-6 py-2 bg-[#ffffff] text-base border rounded-lg focus:shadow-outline" placeholder="Email"
+                className="sm:w-1/2 h-12 px-6 py-2 bg-[#ffffff] text-base border rounded-lg focus:shadow-outline text-black" placeholder="Email"
               />
               <button
                 onClick={handleEmail}
-              className="w-1/2 h-12 px-6 py-2 mt-4 text-base font-semibold text-white dark:text-black hover:text-orange-500 transition duration-200 ease-in-out rounded-lg shadow-md dark:bg-white bg-slate-700">
+                className="w-1/2 h-12 px-6 py-2 mt-4 text-base font-semibold text-white dark:text-black hover:text-orange-500 transition duration-200 ease-in-out rounded-lg shadow-md dark:bg-white bg-slate-700">
                   {loading ? 'Loading...' : 'Notify Me'}
               </button>
             </div>
