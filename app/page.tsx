@@ -42,11 +42,11 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col h-screen items-center justify-between p-8">
+    <main className="flex flex-col h-screen items-center justify-between p-8"> 
 
       {/* flash message */}
       <div>
-        {/* theme indep */}
+         {/* theme indep */}
         {message && (
           <div className={`flex items-center justify-center w-full h-12 px-6 py-2 text-base text-white transition duration-200 ease-in-out rounded-lg ${message[1] === 0 ? 'bg-red-500' : 'bg-green-500'}`}>
             <p>{message[0]}</p>
@@ -57,7 +57,7 @@ export default function Home() {
         <h1 className="text-4xl font-bold text-center">
           Deverb
         </h1>
-        <ModeToggle />
+        <ModeToggle/>
       </div>
 
       {/* hide on mobile */}
@@ -78,18 +78,18 @@ export default function Home() {
       <div className="flex flex-col items-center justify-center w-full h-full z-1">
         <div className="flex flex-col items-center justify-center w-full h-full">
           <h1 className="text-2xl font-bold text-center mb-4">Get notified when we launch</h1>
-          <div className="flex flex-col items-center justify-center w-full h-full">
-            <input type="email" required
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              className="sm:w-1/2 h-12 px-6 py-2 bg-[#ffffff] text-base border rounded-lg focus:shadow-outline" placeholder="Email"
-            />
-            <button
-              onClick={handleEmail}
+            <div className="flex flex-col items-center justify-center w-full h-full">
+              <input type="email" required
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                className="sm:w-1/2 h-12 px-6 py-2 bg-[#ffffff] text-base border rounded-lg focus:shadow-outline" placeholder="Email"
+              />
+              <button
+                onClick={handleEmail}
               className="w-1/2 h-12 px-6 py-2 mt-4 text-base font-semibold text-white dark:text-black hover:text-orange-500 transition duration-200 ease-in-out rounded-lg shadow-md dark:bg-white bg-slate-700">
-              {loading ? 'Loading...' : 'Notify Me'}
-            </button>
-          </div>
+                  {loading ? 'Loading...' : 'Notify Me'}
+              </button>
+            </div>
         </div>
       </div>
     </main>
