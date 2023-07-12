@@ -79,7 +79,7 @@ export default function ThreeScene({x}: {x: number}) {
             renderer.dispose();
             scene.remove(base);
         };
-    }, []);
+    }, [x]);
 
     return <canvas ref={canvasRef} />;
 };
