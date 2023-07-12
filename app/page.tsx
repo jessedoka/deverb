@@ -26,7 +26,7 @@ export default function Home() {
         setMessage(['Please enter a valid email address', 0])
         return
       }
-      
+
       setLoading(true)
       const { error } = await supabase
         .from('subscriptions')
@@ -40,7 +40,7 @@ export default function Home() {
       setLoading(false)
     }
   }
-    
+
   return (
     <main className="flex flex-col h-screen items-center justify-between p-8"> 
 
