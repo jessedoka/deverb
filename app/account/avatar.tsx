@@ -57,8 +57,9 @@ export default function Avatar({
             }
 
             onUpload(filePath)
-        } catch (error) {
-            alert('Error uploading avatar!')
+        } catch (error: any) {
+            // alert('Error uploading avatar!')
+            alert('Error uploading avatar: ' + error.message)
         } finally {
             setUploading(false)
         }
