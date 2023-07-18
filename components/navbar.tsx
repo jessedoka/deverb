@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Image from 'next/image';
+import Logo from '@/components/logo';
 import Link from 'next/link';
 
 import { ModeToggle } from '@/components/mode-toggle';
@@ -17,15 +17,10 @@ export default function Navbar() {
         <nav className=''>
             <div className="max-w-7xl mx-auto p-9">
                 <div className="flex md:justify-between justify-center">
-                    <div>
-                        <div className='dark:hidden'>
-                            <Image src='/deverbd.svg' width={200} height={1} alt="deverb logo dark" />
-                        </div>
-
-                        {/* show on light mode */}
-                        <div className='hidden dark:block'>
-                            <Image src='/deverbl.svg' width={200} height={1} alt="deverb logo light" />
-                        </div>
+                    <div className='flex items-center space-x-4'>
+                        <Link href='/'>
+                            <Logo />
+                        </Link>
                     </div>
 
                     {/* add a div here for a middle section */}
