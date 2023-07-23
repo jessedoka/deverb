@@ -1,30 +1,44 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
-
 import type { NextRequest } from 'next/server'
-import type { Database } from '@/lib/database.types'
 
 export async function middleware(req: NextRequest) {
-    const res = NextResponse.next()
-    const supabase = createMiddlewareClient<Database>({ req, res })
-    
+    // We need to create a response and hand it to the supabase client to be able to modify the response headers.
+    const res = NextResponse.next();
+
+    // Create authenticated Supabase Client.
+    const supabase = createMiddlewareClient({ req, res });
+
     const {
         data: { user },
     } = await supabase.auth.getUser()
 
-    // if user is signed in and the current path is / redirect the user to /account
-    if (user && req.nextUrl.pathname === '/') {
-        return NextResponse.redirect(new URL('/account', req.url))
+    // non-authenticated users are redirected to the login page
+
+    if (!user) {
+        if (req.nextUrl.pathname !== '/login'
+            && req.nextUrl.pathname !== '/register'
+            && req.nextUrl.pathname !== '/') {
+            return NextResponse.redirect(new URL('/login', req.url))
+        }
     }
 
-    // if user is not signed in and the current path is not / redirect the user to /
-    if (!user && req.nextUrl.pathname !== '/') {
-        return NextResponse.redirect(new URL('/', req.url))
+    // authenticated users are redirected to the home page
+
+    if (user) {
+        if (req.nextUrl.pathname === '/login'
+            || req.nextUrl.pathname === '/register'
+            || req.nextUrl.pathname === '/') {
+            return NextResponse.redirect(new URL('/home', req.url))
+        }
+
     }
 
-    return res
+
 }
 
 export const config = {
-    matcher: ['/', '/account'],
+    matcher: [
+        '/account', '/home', '/login', '/register', '/'
+    ],
 }

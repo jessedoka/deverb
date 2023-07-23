@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <main> 
 
-      <Navbar />
+      <Navbar session={null}/>
 
       
     </main>

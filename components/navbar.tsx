@@ -1,17 +1,20 @@
 import * as React from 'react';
 import Logo from '@/components/logo';
 import Link from 'next/link';
-
 import { ModeToggle } from '@/components/mode-toggle';
+import { Session } from '@supabase/auth-helpers-nextjs';
 
+export default function Navbar({session}: {session: Session | null}) {
 
-export default function Navbar() {
-
-    const menu = [
-        { title: 'Login', path: '/login', isInternal: true },
-        { title: 'Register', path: '/register', isInternal: true },
-        
+    const menu = session ? [
+        { title: 'Home', path: '/' },
+        { title: 'Account', path: '/account' },
+    ] : [
+        { title: 'Login', path: '/login' },
+        { title: 'Register', path: '/register' },
     ]
+
+
 
     return (
         <nav className=''>

@@ -1,7 +1,6 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { Database } from '@/lib/database.types'
-import AccountForm from './account-form'
 import Navbar from '@/components/navbar'
 
 export default async function Account() {
@@ -13,8 +12,8 @@ export default async function Account() {
 
     return (
         <div>
-            <Navbar session={session} />
-            <AccountForm session={session} />
-        </div>    
+            <Navbar session={session}/>
+        </div>
     )
+
 }
