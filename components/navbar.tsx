@@ -6,7 +6,8 @@ import { ModeToggle } from '@/components/mode-toggle';
 import { Session } from '@supabase/auth-helpers-nextjs';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import type { Database } from '@/lib/database.types';
-import Avatar from './avatar';
+import Image from 'next/image';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function Navbar({session}: {session: Session | null}) {
     const supabase = createClientComponentClient<Database>()
@@ -26,8 +27,20 @@ export default function Navbar({session}: {session: Session | null}) {
                 throw error
             }
 
-            if (data) {
-                setAvatarUrl(data.avatar_url)
+            if (data?.avatar_url) {
+                const path = data.avatar_url
+                try {
+                    const { data, error } = await supabase.storage.from('avatars').download(path)
+                    if (error) {
+                        throw error
+                    }
+
+                    const url = URL.createObjectURL(data)
+                    setAvatarUrl(url)
+                } catch (error) {
+                    console.log('Error downloading image: ', error)
+                }
+                
             }
         } catch (error) {
             alert('Error loading user data!')
@@ -35,17 +48,21 @@ export default function Navbar({session}: {session: Session | null}) {
     }, [user, supabase])
 
     useEffect(() => {
-        // fetch is ran when user is logged in
-        if (user) {
-            fetchPP()
-        }
-    }, [user, fetchPP])
+        if (user) fetchPP()
+    }, [fetchPP, user])
 
     const menu = session ? [
-        { title: 'Home', path: '/' },
         { 
-            // get users profile picture
-            title: <Avatar uid={user?.id as string} url={avatarUrl} size={32} onUpload={fetchPP} upload={false} />,
+            title: <div>
+                {avatarUrl ? (
+                    <Avatar>
+                        <AvatarImage src={avatarUrl} alt={user?.email} />
+                        <AvatarFallback>{user?.email}</AvatarFallback>
+                    </Avatar>
+                ) : (
+                    <div className="avatar no-image" style={{ height: 32, width: 32 }} />
+                )}
+            </div>,
             path: '/account' 
         },
     ] : [
@@ -70,9 +87,16 @@ export default function Navbar({session}: {session: Session | null}) {
                         <div className='flex space-x-4 items-center'>
                             {menu.map((item, index) => (
                                 <Link href={item.path} key={index}>
-                                    <span className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 block transition duration-1000 px-3 py-2 rounded-md font-medium border'>
+                                    {/* check if child is an image */}
+                                    {typeof item.title === 'string' ? (
+                                        <span className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 block transition duration-1000 px-3 py-2 rounded-md font-medium border'>
                                         {item.title}
                                     </span>
+                                    ) : (
+                                        <span className=''>
+                                            {item.title}
+                                        </span>
+                                    )}                                    
                                 </Link>
                             ))}
 
@@ -86,9 +110,16 @@ export default function Navbar({session}: {session: Session | null}) {
                     <div className='flex space-x-3'>
                         {menu.map((item, index) => (
                             <Link href={item.path} key={index}>
-                                <span className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 block transition duration-300 px-3 py-2 rounded-md font-medium border'>
+                                {/* check if child is an image */}
+                                {typeof item.title === 'string' ? (
+                                    <span className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 block transition duration-1000 px-3 py-2 rounded-md font-medium border'>
                                     {item.title}
                                 </span>
+                                ) : (
+                                    <span className=''>
+                                        {item.title}
+                                    </span>
+                                )}
                             </Link>
                         ))}
                     </div>
