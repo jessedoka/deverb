@@ -1,20 +1,57 @@
-import * as React from 'react';
+"use client"
+import { useCallback, useEffect, useState } from 'react';
 import Logo from '@/components/logo';
 import Link from 'next/link';
 import { ModeToggle } from '@/components/mode-toggle';
 import { Session } from '@supabase/auth-helpers-nextjs';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import type { Database } from '@/lib/database.types';
+import Avatar from './avatar';
 
 export default function Navbar({session}: {session: Session | null}) {
+    const supabase = createClientComponentClient<Database>()
+    const user = session?.user
+
+    const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
+
+    const fetchPP = useCallback(async () => {
+        try {
+            let { data, error, status } = await supabase
+                .from('profiles')
+                .select(`avatar_url`)
+                .eq('id', user?.id)
+                .single()
+
+            if (error && status !== 406) {
+                throw error
+            }
+
+            if (data) {
+                setAvatarUrl(data.avatar_url)
+            }
+        } catch (error) {
+            alert('Error loading user data!')
+        }
+    }, [user, supabase])
+
+    useEffect(() => {
+        // fetch is ran when user is logged in
+        if (user) {
+            fetchPP()
+        }
+    }, [user, fetchPP])
 
     const menu = session ? [
         { title: 'Home', path: '/' },
-        { title: 'Account', path: '/account' },
+        { 
+            // get users profile picture
+            title: <Avatar uid={user?.id as string} url={avatarUrl} size={32} onUpload={fetchPP} upload={false} />,
+            path: '/account' 
+        },
     ] : [
         { title: 'Login', path: '/login' },
         { title: 'Register', path: '/register' },
     ]
-
-
 
     return (
         <nav className=''>
@@ -57,6 +94,7 @@ export default function Navbar({session}: {session: Session | null}) {
                     </div>
                 </div>
             </div>
+            
         </nav>
     )
 }

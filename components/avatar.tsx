@@ -10,11 +10,13 @@ export default function Avatar({
     url,
     size,
     onUpload,
+    upload = true,
 }: {
     uid: string
     url: Profiles['avatar_url']
     size: number
     onUpload: (url: string) => void
+    upload?: boolean
 }) {
     const supabase = createClientComponentClient<Database>()
     const [avatarUrl, setAvatarUrl] = useState<Profiles['avatar_url']>(url)
@@ -79,22 +81,21 @@ export default function Avatar({
             ) : (
                 <div className="avatar no-image" style={{ height: size, width: size }} />
             )}
-            <div style={{ width: size }}>
-                <label className="button primary block" htmlFor="single">
-                    {uploading ? 'Uploading ...' : 'Upload'}
-                </label>
-                <input
-                    style={{
-                        visibility: 'hidden',
-                        position: 'absolute',
-                    }}
-                    type="file"
-                    id="single"
-                    accept="image/*"
-                    onChange={uploadAvatar}
-                    disabled={uploading}
-                />
-            </div>
+            {
+                upload && (
+                    <label className="btn btn-primary btn-icon btn-md rounded-circle shadow hover-translate-y-n3 position-absolute bottom-0 end-0 ms-2 mb-2" htmlFor="avatar">
+                        <i className="fi fi-pencil" />
+                        <input
+                            type="file"
+                            id="avatar"
+                            className="d-none"
+                            accept="image/*"
+                            onChange={uploadAvatar}
+                            disabled={uploading}
+                        />
+                    </label>
+                )
+            }
         </div>
     )
 }
