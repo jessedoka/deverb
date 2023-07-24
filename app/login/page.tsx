@@ -38,7 +38,7 @@ const Login = () => {
 
 
             if (error) throw error
-            router.push('/account')
+            router.push('/settings/profile')
             
         } catch (error: any) {
             setMessage([error.error_description || error.message, 0])

@@ -63,7 +63,7 @@ export default function Navbar({session}: {session: Session | null}) {
                     <div className="avatar no-image" style={{ height: 32, width: 32 }} />
                 )}
             </div>,
-            path: '/account' 
+            path: '/settings/profile' 
         },
     ] : [
         { title: 'Login', path: '/login' },
