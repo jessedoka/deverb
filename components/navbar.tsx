@@ -6,7 +6,6 @@ import { ModeToggle } from '@/components/mode-toggle';
 import { Session } from '@supabase/auth-helpers-nextjs';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import type { Database } from '@/lib/database.types';
-import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function Navbar({session}: {session: Session | null}) {
@@ -14,14 +13,17 @@ export default function Navbar({session}: {session: Session | null}) {
     const user = session?.user
 
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
+    const [username, setUsername] = useState<string | null>(null)
 
     const fetchPP = useCallback(async () => {
         try {
             let { data, error, status } = await supabase
                 .from('profiles')
-                .select(`avatar_url`)
+                .select(`avatar_url, username`)
                 .eq('id', user?.id)
                 .single()
+
+            console.log(data)
 
             if (error && status !== 406) {
                 throw error
@@ -41,6 +43,10 @@ export default function Navbar({session}: {session: Session | null}) {
                     console.log('Error downloading image: ', error)
                 }
                 
+            }
+
+            if (data?.username) {
+                setUsername(data.username)
             }
         } catch (error) {
             alert('Error loading user data!')
@@ -63,7 +69,7 @@ export default function Navbar({session}: {session: Session | null}) {
                     <div className="avatar no-image" style={{ height: 32, width: 32 }} />
                 )}
             </div>,
-            path: '/settings/profile' 
+            path: `/${username}`
         },
     ] : [
         { title: 'Login', path: '/login' },

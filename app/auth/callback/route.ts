@@ -8,8 +8,8 @@ export async function GET(req: NextRequest) {
     const code = searchParams.get('code')
 
     if (code) {
-        await supabase.auth.exchangeCodeForSession(code)
+        await supabase.auth.exchangeCodeForSession(code)        
     }
 
-    return NextResponse.redirect(new URL('/account', req.url))
+    return NextResponse.redirect(new URL('/settings/profile', req.url))
 }
