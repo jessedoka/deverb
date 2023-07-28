@@ -16,7 +16,6 @@ export default async function Profile({ params }: { params: { user: string } }) 
         .select(`full_name, username, website, avatar_url`)
         .eq('username', params.user)
         .single()
-        console.log(user)
 
     if (error) {
         throw new Error('Error loading user data!')

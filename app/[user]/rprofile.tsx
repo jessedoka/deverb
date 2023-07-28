@@ -14,11 +14,9 @@ export default async function RProfile(
 
     return (
         <div>
-            <div className="flex flex-col items-center justify-center">
-                <h3>{data.full_name}</h3>
-                <h3>{data.username}</h3>
-                <h3>{data.website}</h3>
-            </div>
+            <div className='w-full h-40 border-none bg-slate-300'></div>
+
+            
         </div>
     )
 }
