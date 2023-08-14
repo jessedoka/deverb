@@ -26,7 +26,7 @@ export default function ProfileForm({ session, params }: { session: Session |nul
                 .eq('username', params.user)
                 .single()
 
-            if (error && status !== 406) {
+            if (error && status === 406) {
                 throw new Error(error.message)
             }
 
@@ -81,17 +81,6 @@ export default function ProfileForm({ session, params }: { session: Session |nul
                     )
                 }
             </div>
-            {/* <div>
-                {
-                    // show id
-                    id && (
-                        <div>
-                            <div>id: {id}</div>
-                            <div>session_id: {session_id}</div>
-                        </div>
-                    )
-                }
-            </div> */}
 
             {/* edit profile */}
             {session_id === id && (

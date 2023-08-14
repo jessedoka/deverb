@@ -79,7 +79,7 @@ export default function Navbar({session}: {session: Session | null}) {
     ]
 
     return (
-        <nav className=''>
+        <nav>
             <div className="max-w-7xl mx-auto p-9">
                 <div className="flex md:justify-between justify-center">
                     <div className='flex items-center space-x-4'>
