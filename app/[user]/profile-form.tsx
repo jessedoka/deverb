@@ -58,6 +58,7 @@ export default function ProfileForm({ session, params }: { session: Session |nul
                     setAvatarUrl(url)
                 }}
                 upload={false}
+                className='p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500'
             />
             <div>
                 {/* show fullname */}
