@@ -49,54 +49,26 @@ export default function ProfileForm({ session, params }: { session: Session |nul
     }, [getProfile])
 
     return (
-        <div>
-            <Avatar
-                uid={params.user}
-                url={avatar_url}
-                size={200}
-                onUpload={(url) => {
-                    setAvatarUrl(url)
-                }}
-                upload={false}
-                className='p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500'
-            />
-            <div>
-                {/* show fullname */}
-                {fullname && (
-                    <div>{fullname}</div>
-                )}
-            </div>
-            <div>
+        <div className='relative'>
+            <div className='h-48 bg-gray-200 dark:bg-gray-800 z-0'>
                 {
-                    // show username
                     username && (
-                        <div>@{username}</div>
+                        <span className='right-32 bottom-32 absolute text-7xl font-semibold'>@{username}</span>
                     )
                 }
             </div>
-            <div>
-                {
-                    // show website
-                    website && (
-                        <div>{website}</div>
-                    )
-                }
-            </div>
-
-            {/* edit profile */}
-            {session_id === id && (
-                <div>
-                    <Link href={`/settings/profile`}>
-                        <p>Edit Profile</p>
-                    </Link>
-                </div>
-            )}
-            
-
-            {/* loading */}
-            {loading && (
-                <div>Loading ...</div>
-            )}
+            <div className='pb-14 px-32'>
+                <Avatar
+                    uid={params.user}
+                    url={avatar_url}
+                    size={140}
+                    onUpload={(url) => {
+                        setAvatarUrl(url)
+                    }}
+                    upload={false}
+                    className='absolute z-10 rounded-full ring-8 ring-white dark:ring-slate-950 bottom-0'
+                />
+            </div> 
         </div>
     )
 }
