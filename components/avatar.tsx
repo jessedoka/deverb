@@ -12,6 +12,7 @@ export default function Avatar({
     onUpload,
     upload = true,
     className = '',
+    children,
 }: {
     uid: string
     url: Profiles['avatar_url']
@@ -19,6 +20,7 @@ export default function Avatar({
     onUpload: (url: string) => void
     upload?: boolean
     className?: string
+    children?: React.ReactNode
 }) {
     const supabase = createClientComponentClient<Database>()
     const [avatarUrl, setAvatarUrl] = useState<Profiles['avatar_url']>(url)
@@ -70,7 +72,7 @@ export default function Avatar({
     }
 
     return (
-        <div>
+        <div className='overflow-hidden'>
             {avatarUrl ? (
                 <Image
                     width={size}

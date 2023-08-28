@@ -1,62 +1,60 @@
-'use client'
+'use client';
+import { useCallback, useEffect, useState } from 'react';
+import type { Database } from "@/lib/database.types";
+import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import Avatar from '@/components/avatar';
 
-import { useCallback, useEffect, useState } from 'react'
-import type { Database } from "@/lib/database.types"
-import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import Avatar from '@/components/avatar'
 
-export default function AccountForm({ session }: { session: Session | null }) {
-    const supabase = createClientComponentClient<Database>()
-    const [loading, setLoading] = useState(true)
-    const [fullname, setFullname] = useState<string | null>(null)
-    const [username, setUsername] = useState<string | null>(null)
-    const [website, setWebsite] = useState<string | null>(null)
-    const [avatar_url, setAvatarUrl] = useState<string | null>(null)
-    const user = session?.user
+export default function AccountForm({ session }: { session: Session | null; }) {
+    const supabase = createClientComponentClient<Database>();
+    const [loading, setLoading] = useState(true);
+    const [fullname, setFullname] = useState<string | null>(null);
+    const [username, setUsername] = useState<string | null>(null);
+    const [website, setWebsite] = useState<string | null>(null);
+    const [avatar_url, setAvatarUrl] = useState<string | null>(null);
+    const user = session?.user;
 
     const getProfile = useCallback(async () => {
         try {
-            setLoading(true)
+            setLoading(true);
 
             let { data, error, status } = await supabase
                 .from('profiles')
                 .select(`full_name, username, website, avatar_url`)
                 .eq('id', user?.id)
-                .single()
+                .single();
 
             if (error && status !== 406) {
-                throw error
+                throw error;
             }
 
             if (data) {
-                setFullname(data.full_name)
-                setUsername(data.username)
-                setWebsite(data.website)
-                setAvatarUrl(data.avatar_url)
+                setFullname(data.full_name);
+                setUsername(data.username);
+                setWebsite(data.website);
+                setAvatarUrl(data.avatar_url);
             }
         } catch (error) {
-            alert('Error loading user data!')
+            alert('Error loading user data!');
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }, [user, supabase])
+    }, [user, supabase]);
 
     useEffect(() => {
-        getProfile()
-    }, [user, getProfile])
+        getProfile();
+    }, [user, getProfile]);
 
     async function updateProfile({
-        username,
-        website,
-        avatar_url,
+        username, website, avatar_url,
     }: {
-        username: string | null
-        fullname: string | null
-        website: string | null
-        avatar_url: string | null
+        username: string | null;
+        fullname: string | null;
+        website: string | null;
+        avatar_url: string | null;
     }) {
         try {
-            setLoading(true)
+            setLoading(true);
 
             let { error } = await supabase.from('profiles').upsert({
                 id: user?.id as string,
@@ -65,14 +63,14 @@ export default function AccountForm({ session }: { session: Session | null }) {
                 website,
                 avatar_url,
                 updated_at: new Date().toISOString(),
-            })
-            if (error) throw error
-            alert('Profile updated!')
+            });
+            if (error) throw error;
+            alert('Profile updated!');
         } catch (error: any) {
-            alert('Error updating the data!')
+            alert('Error updating the data!');
             // alert(error.message)
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     }
 
@@ -83,10 +81,9 @@ export default function AccountForm({ session }: { session: Session | null }) {
                 url={avatar_url}
                 size={150}
                 onUpload={(url) => {
-                    setAvatarUrl(url)
-                    updateProfile({ fullname, username, website, avatar_url: url })
-                }}
-            />
+                    setAvatarUrl(url);
+                    updateProfile({ fullname, username, website, avatar_url: url });
+                }} />
             <div>
                 <label htmlFor="email">Email</label>
                 <input id="email" type="text" value={session?.user.email} disabled />
@@ -97,8 +94,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
                     id="fullName"
                     type="text"
                     value={fullname || ''}
-                    onChange={(e) => setFullname(e.target.value)}
-                />
+                    onChange={(e) => setFullname(e.target.value)} />
             </div>
             <div>
                 <label htmlFor="username">Username</label>
@@ -106,8 +102,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
                     id="username"
                     type="text"
                     value={username || ''}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
+                    onChange={(e) => setUsername(e.target.value)} />
             </div>
             <div>
                 <label htmlFor="website">Website</label>
@@ -115,8 +110,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
                     id="website"
                     type="url"
                     value={website || ''}
-                    onChange={(e) => setWebsite(e.target.value)}
-                />
+                    onChange={(e) => setWebsite(e.target.value)} />
             </div>
 
             <div>
@@ -137,5 +131,5 @@ export default function AccountForm({ session }: { session: Session | null }) {
                 </form>
             </div>
         </div>
-    )
+    );
 }
