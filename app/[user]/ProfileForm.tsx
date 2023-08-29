@@ -3,6 +3,9 @@ import { useCallback, useEffect, useState } from 'react';
 import type { Database } from "@/lib/database.types";
 import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Avatar from '@/components/avatar';
+import { Link2 } from 'lucide-react';
+import Link from 'next/link';
+
 
 
 export default function ProfileForm({ session, params }: { session: Session | null; params: { user: string; }; }) {
@@ -10,7 +13,7 @@ export default function ProfileForm({ session, params }: { session: Session | nu
     const [loading, setLoading] = useState(true);
     const [fullname, setFullname] = useState<string | null>(null);
     const [username, setUsername] = useState<string | null>(null);
-    const [website, setWebsite] = useState<string | null>(null);
+    const [website, setWebsite] = useState<string | undefined>(undefined);
     const [avatar_url, setAvatarUrl] = useState<string | null>(null);
     const [id, setId] = useState<string | null>(null);
     const session_id = session?.user?.id;
@@ -56,11 +59,11 @@ export default function ProfileForm({ session, params }: { session: Session | nu
                     )}
                 </div>
                 <div>
-                    <div className='px-32 py-5 item-center'>
+                    <div className='px-64 py-5 item-center'>
                         <Avatar
                             uid={params.user}
                             url={avatar_url}
-                            size={140}
+                            size={120}
                             onUpload={(url) => {
                                 setAvatarUrl(url);
                             }}
@@ -69,17 +72,74 @@ export default function ProfileForm({ session, params }: { session: Session | nu
                     </div>
                 </div>
             </div>
+            
+           <div className='flex-col space-y-5'>
+                <div className="max-w-[90rem] mx-auto p-5">
+                    <div className="flex md:justify-between items-center">
 
-            <div className="flex flex-col space-x-5">
-                <div className="flex">
-                    {fullname && (
-                        <span className='text-5xl font-semibold px-32 py-10'>{fullname}</span>
-                    )}
+                        {
+                            fullname && (
+                                <span className='text-4xl font-semibold'>{fullname}</span>
+                            )
+                        }
+
+                        <div className="flex space-x-5 ">
+                            <button>
+                                <label>Following</label>
+                                <div>0</div>
+                            </button>
+                            <div className="border-r-2 border-gray-300 dark:border-gray-700">
+                            </div>
+                            <button>
+                                <label>Followers</label>
+                                <div>0</div>
+                            </button>
+
+                        </div>
+                        
+                    </div>
                 </div>
-            </div>
 
+                <div className="max-w-[90rem] mx-auto px-5">
+                    <div className="flex md:justify-between items-center">
+                        <div className='flex space-x-3'>
+                            <div className='bg-gray-200 dark:bg-gray-800 rounded-lg p-2 space-x-2 flex items-center'>
+                                <Link2 size={24} />
+                                <a href={website} className='text-blue-500 dark:text-blue-400'>{website}</a>
+                            </div>
 
+                            {/* follow button */}
+                            <div className='bg-gray-200 dark:bg-gray-800 rounded-lg p-2 space-x-2 flex items-center'>
+                                {/* follow button */}
+                                <button>
+                                    <span>Follow</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div className='bg-gray-200 dark:bg-gray-800 rounded-lg p-2 space-x-2 flex items-center'>
+                            {/* edit profile */}
+                            {
+                                session_id === id ? (
+                                    <button>
+                                        <a href='/settings/profile'>
+                                            <span>Edit Profile</span>
+                                        </a>
+                                    </button>
+                                ) : 
+                                (
+                                    <button>
+                                        <span>Message</span>
+                                    </button>
+                                )
+                            }
+                        </div>
+                    </div>
+                </div>
 
+           </div>
         </div>
     );
 }
+
+
