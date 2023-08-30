@@ -13,7 +13,7 @@ export default function ProfileForm({ session, params }: { session: Session | nu
     const [loading, setLoading] = useState(true);
     const [fullname, setFullname] = useState<string | null>(null);
     const [username, setUsername] = useState<string | null>(null);
-    const [website, setWebsite] = useState<string | undefined>(undefined);
+    const [website, setWebsite] = useState<string | null>(null);
     const [avatar_url, setAvatarUrl] = useState<string | null>(null);
     const [id, setId] = useState<string | null>(null);
     const session_id = session?.user?.id;
@@ -105,7 +105,9 @@ export default function ProfileForm({ session, params }: { session: Session | nu
                         <div className='flex space-x-3'>
                             <div className='bg-gray-200 dark:bg-gray-800 rounded-lg p-2 space-x-2 flex items-center'>
                                 <Link2 size={24} />
-                                <a href={website} className='text-blue-500 dark:text-blue-400'>{website}</a>
+                                <a href={
+                                    website?.startsWith('http') ? website : `https://${website}`
+                                } className='text-blue-500 dark:text-blue-400'>{website}</a>
                             </div>
 
                             {/* follow button */}
