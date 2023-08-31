@@ -405,7 +405,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                 </div>
                 <div className="mt-6 flex items-center justify-end gap-x-6">
                     <form action="/auth/signout" method="post">
-                        <button className="button block" type="submit">
+                        <button type="submit" className="button block bg-red-500 text-white hover:bg-red-600 rounded-md p-2">
                             Sign out
                         </button>
                     </form>
