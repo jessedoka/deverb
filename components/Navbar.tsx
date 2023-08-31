@@ -7,7 +7,7 @@ import { Session } from '@supabase/auth-helpers-nextjs';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import type { Database } from '@/lib/database.types';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
+import { UserCircleIcon } from '@heroicons/react/24/solid'
 
 export default function Navbar({ session }: { session: Session | null; }) {
     const supabase = createClientComponentClient<Database>();
@@ -68,7 +68,7 @@ export default function Navbar({ session }: { session: Session | null; }) {
                     </Avatar>
                 ) : (
                     <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                        <svg className="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
+                        <UserCircleIcon className="w-full h-full text-gray-300" />
                     </div>
                 )}
             </div>,

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { Database } from "@/lib/database.types";
 import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Avatar from '@/components/avatar';
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { PhotoIcon } from '@heroicons/react/24/solid'
 
 
 export default function AccountForm({ session }: { session: Session | null; }) {
@@ -11,6 +11,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
     const [loading, setLoading] = useState(true);
     const [fullname, setFullname] = useState<string | null>(null);
     const [username, setUsername] = useState<string | null>(null);
+    const [description, setDescription] = useState<string | null>(null);
     const [website, setWebsite] = useState<string | null>(null);
     const [avatar_url, setAvatarUrl] = useState<string | null>(null);
     const user = session?.user;
@@ -21,7 +22,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
 
             let { data, error, status } = await supabase
                 .from('profiles')
-                .select(`full_name, username, website, avatar_url`)
+                .select(`full_name, username, description, website, avatar_url`)
                 .eq('id', user?.id)
                 .single();
 
@@ -32,6 +33,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
             if (data) {
                 setFullname(data.full_name);
                 setUsername(data.username);
+                setDescription(data.description);
                 setWebsite(data.website);
                 setAvatarUrl(data.avatar_url);
             }
@@ -47,12 +49,13 @@ export default function AccountForm({ session }: { session: Session | null; }) {
     }, [user, getProfile]);
 
     async function updateProfile({
-        username, website, avatar_url,
+        username, website, avatar_url, description
     }: {
         username: string | null;
         fullname: string | null;
         website: string | null;
         avatar_url: string | null;
+        description: string | null;
     }) {
         try {
             setLoading(true);
@@ -61,6 +64,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                 id: user?.id as string,
                 full_name: fullname,
                 username,
+                description,
                 website,
                 avatar_url,
                 updated_at: new Date().toISOString(),
@@ -76,7 +80,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
     }
 
     return (
-        <form className='bg-gray-50 dark:bg-gray-900 p-5'>
+        <main className='bg-gray-50 dark:bg-gray-900 p-5'>
             <div className="flex-col items-center justify-center mx-auto max-w-4xl">
                 <div className="border-b border-gray-900/10 pb-12 mb-5">
                     <h2 className="text-base font-semibold leading-7 text-gray-900">Profile</h2>
@@ -98,7 +102,9 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                                         id="username"
                                         autoComplete="username"
                                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                        placeholder="janesmith"
+                                        placeholder="username"
+                                        value={username || ''}
+                                        onChange={(e) => setUsername(e.target.value)}
                                     />
                                 </div>
                             </div>
@@ -114,7 +120,8 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                                     name="about"
                                     rows={3}
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    defaultValue={''}
+                                    defaultValue={description || ''}
+                                    onChange={(e) => setDescription(e.target.value)}
                                 />
                             </div>
                             <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
@@ -125,13 +132,18 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                                 Photo
                             </label>
                             <div className="mt-2 flex items-center gap-x-3">
-                                <UserCircleIcon className="h-12 w-12 text-gray-300" aria-hidden="true" />
-                                <button
-                                    type="button"
-                                    className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                >
-                                    Change
-                                </button>
+                                <div>
+                                    <Avatar
+                                        uid={user?.id as string}
+                                        url={avatar_url}
+                                        size={120}
+                                        onUpload={(url) => {
+                                            setAvatarUrl(url);
+                                        }}
+                                        upload={true}
+                                        className="rounded-full ring-8 ring-white dark:ring-slate-950"
+                                    />
+                                </div>
                             </div>
                         </div>
 
@@ -175,6 +187,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                                     id="first-name"
                                     autoComplete="given-name"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+
                                 />
                             </div>
                         </div>
@@ -403,11 +416,11 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                     <button
                         type="submit"
                         className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
+                    > 
                         Save
                     </button>
                 </div>
             </div>
-        </form>
+        </main>
     );
 }

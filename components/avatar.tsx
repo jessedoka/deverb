@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Database } from '@/lib/database.types'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Image from 'next/image'
+import { UserCircleIcon } from '@heroicons/react/24/solid'
+
 type Profiles = Database['public']['Tables']['profiles']['Row']
 
 export default function Avatar({
@@ -72,32 +74,35 @@ export default function Avatar({
     }
 
     return (
-        <div className='overflow-hidden'>
+        <div className='flex items-center space-x-5 pt-5'>
             {avatarUrl ? (
                 <Image
                     width={size}
                     height={size}
-                    src={avatarUrl}
+                    src={
+                        avatarUrl
+                    }
                     alt="Avatar"
                     className={`avatar ${className}`}
                     style={{ height: size, width: size }}
                 />
             ) : (
-                <div className="avatar no-image" style={{ height: size, width: size }} />
+                    <div className="relative w-20 h-20 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                        <UserCircleIcon className="w-full h-full text-gray-300" />
+                    </div>
             )}
             {
                 upload && (
-                    <label className="btn btn-primary btn-icon btn-md rounded-circle shadow hover-translate-y-n3 position-absolute bottom-0 end-0 ms-2 mb-2" htmlFor="avatar">
-                        <i className="bi bi-pencil-square"></i>
+                    <div>
                         <input
                             type="file"
                             id="avatar"
-                            className="d-none"
+                            className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                             accept="image/*"
                             onChange={uploadAvatar}
                             disabled={uploading}
                         />
-                    </label>
+                    </div>
                 )
             }
         </div>
