@@ -171,7 +171,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                     </div>
                 </div>
 
-                <div className="border-b border-gray-900/10 pb-12">
+                <div className="border-b border-gray-900/10 pb-12 mb-5">
                     <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
                     <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
 
@@ -410,7 +410,6 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                         </button>
                     </form>
                     <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
-                        {/* link back to profile */}
                         Cancel
                     </button>
                     <button

@@ -20,6 +20,13 @@ const Register = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [passwordConfirm, setPasswordConfirm] = useState<string>('')
+    
+    // bool to check whether first form has been completed
+    const [firstForm, setFirstForm] = useState<boolean>(false)
+    const [user, setUser] = useState<any>(null)
+
+    const [fullname, setFullname] = useState<string>('')
+    const [username, setUsername] = useState<string>('')
 
     const [captchaToken, setCaptchaToken] = useState<string>('')
     const { theme } = useTheme()
@@ -33,7 +40,7 @@ const Register = () => {
                 throw new Error('Passwords do not match.')
             }
 
-            const { error } = await supabase.auth.signUp({
+            const { data, error } = await supabase.auth.signUp({
                 email, 
                 password,
                 options: {
@@ -41,12 +48,38 @@ const Register = () => {
                     captchaToken,
                 }
             })
+
             if (error) throw error
             setMessage(['Check your email for the confirmation link.'])
+            setFirstForm(true)
+            setUser(data.user)
         } catch (error: any) {
             setMessage([error.error_description || error.message, 0])
         } finally {
             setLoading(false)
+        }
+    }
+
+
+    // handleCreation is for the second form responsible for creating genesis data for the user
+
+    async function handleCreation(e: any) {
+        try {
+            setLoading(true);
+
+            let { error } = await supabase.from('profiles').upsert({
+                id: user?.id as string,
+                full_name: fullname,
+                username,
+                updated_at: new Date().toISOString(),
+            });
+            if (error) throw error;
+            alert('Profile updated!');
+        } catch (error: any) {
+            alert('Error updating the data!');
+            // alert(error.message)
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -67,10 +100,14 @@ const Register = () => {
                     )}
 
                     {/* register form */}
+
+                    {/* boolean to check whether first form has been completed */}
                     <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+
+                        {!firstForm ? (
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                                Create and account
+                                Create Account
                             </h1>
                             <form className="space-y-4 md:space-y-6" onSubmit={handleRegister}>
                                 <div>
@@ -149,7 +186,40 @@ const Register = () => {
                                 </p>
                             </form>
                         </div>
-                    </div>
+                    ) : (
+                            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                                    Create Profile
+                                </h1>
+                                <form className="space-y-4 md:space-y-6" onSubmit={handleCreation}>
+                                    <div>
+                                        {subMessage && (
+                                            <div className={`mb-4 text-sm rounded-md  ${subMessage[1] === 0 ? 'text-red-500' : 'text-green-500'}`}>
+                                                {subMessage[0]}
+                                            </div>
+                                        )}
+                                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your username</label>
+
+                                        <input type="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500" placeholder="Username"
+                                            onChange={
+                                                (e) => {
+                                                    setUsername(e.target.value)
+                                                }
+                                            }
+                                        />
+                                    </div>
+                                                                
+
+                                    <button type="submit" className={`w-full text-white bg-orange-400 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800 transition duration-300 ease-in-out`}>{loading ? "Loading..." : "Create a Profile"}</button>
+
+                                    <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                                        Already have an account? <Link href="/login"
+                                        className="font-medium text-orange-600 hover:underline dark:text-orange-500">Login here</Link>
+                                    </p>
+                                </form>
+                            </div>
+                        )}
+                    </div> 
                 </div>
             </section>
         </>

@@ -24,7 +24,7 @@ export default function ProfileForm({ session, params }: { session: Session | nu
 
             let { data, error, status } = await supabase
                 .from('profiles')
-                .select(`id, full_name, username, website, avatar_url`)
+                .select(`id, full_name, username, description, website, avatar_url`)
                 .eq('username', params.user)
                 .single();
 
