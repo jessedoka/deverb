@@ -91,7 +91,7 @@ export default function Home() {
               <input type="email" required
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                className="sm:w-1/2 h-12 px-6 py-2 bg-[#ffffff] text-base border rounded-lg focus:shadow-outline text-black" placeholder="Email"
+                className="sm:w-1/2 h-12 px-6 py-2 bg-[#ffffff] text-base border rounded-lg focus:shadow-outline text-black placeholder:text-black" placeholder="Email"
               />
               <button
                 onClick={handleEmail}
