@@ -141,7 +141,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                                             setAvatarUrl(url);
                                         }}
                                         upload={true}
-                                        className="rounded-full ring-8 ring-white dark:ring-slate-950"
+                                        className="sr-only rounded-full ring-8 ring-white dark:ring-slate-950"
                                     />
                                 </div>
                             </div>
