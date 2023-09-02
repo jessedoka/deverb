@@ -13,8 +13,7 @@ export default function Avatar({
     size,
     onUpload,
     upload = true,
-    className = '',
-    children,
+    className,
 }: {
     uid: string
     url: Profiles['avatar_url']
@@ -22,7 +21,6 @@ export default function Avatar({
     onUpload: (url: string) => void
     upload?: boolean
     className?: string
-    children?: React.ReactNode
 }) {
     const supabase = createClientComponentClient<Database>()
     const [avatarUrl, setAvatarUrl] = useState<Profiles['avatar_url']>(url)
@@ -87,7 +85,7 @@ export default function Avatar({
                     style={{ height: size, width: size }}
                 />
             ) : (
-                    <div className="relative w-20 h-20 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                    <div className={`avatar ${className} w-40 h-40 ring-0 bg-gray-800 dark:bg-gray-200`}>
                         <UserCircleIcon className="w-full h-full text-gray-300" />
                     </div>
             )}

@@ -63,31 +63,6 @@ const Register = () => {
         }
     }
 
-
-    // handleCreation is for the second form responsible for creating genesis data for the user
-
-    async function handleCreation(e: any) {
-        try {
-            setLoading(true);
-
-            let { error } = await supabase.from('profiles').upsert({
-                id: user?.id as string,
-                full_name: fullname,
-                username,
-                description,
-                avatarUrl,
-                updated_at: new Date().toISOString(),
-            });
-            if (error) throw error;
-            alert('Profile updated!');
-        } catch (error: any) {
-            alert('Error updating the data!');
-            // alert(error.message)
-        } finally {
-            setLoading(false);
-        }
-    }
-
     
     return (
         <>
@@ -108,8 +83,6 @@ const Register = () => {
 
                     {/* boolean to check whether first form has been completed */}
                     <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-
-                        {!firstForm ? (
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                 Create Account
@@ -191,91 +164,6 @@ const Register = () => {
                                 </p>
                             </form>
                         </div>
-                    ) : (
-                            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                                    Create Profile
-                                </h1>
-                                <form className="space-y-4 md:space-y-6" onSubmit={handleCreation}>
-                                    <div>
-                                        {/* {subMessage && (
-                                            <div className={`mb-4 text-sm rounded-md  ${subMessage[1] === 0 ? 'text-red-500' : 'text-green-500'}`}>
-                                                {subMessage[0]}
-                                            </div>
-                                        )} */}
-
-                                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your username</label>
-
-                                        <input type="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500" placeholder="Username"
-                                        value={username}
-                                            onChange={
-                                                (e) => {
-                                                    setUsername(e.target.value)
-                                                }
-                                            }
-                                        />
-                                    </div>
-                                    <div>
-
-                                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Fullname </label>
-
-                                        <input type="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500" placeholder="Fullname"
-                                        value={fullname}
-                                            onChange={
-                                                (e) => {
-                                                    setFullname(e.target.value)
-                                                }
-                                            }
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
-                                            About
-                                        </label>
-                                        <div className="mt-2">
-                                            <textarea
-                                                id="about"
-                                                name="about"
-                                                rows={3}
-                                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-gray-100
-                                                bg:white dark:bg-gray-800
-                                                shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-300
-                                                sm:text-sm sm:leading-6"
-                                                defaultValue={description || ''}
-                                                onChange={(e) => setDescription(e.target.value)}
-                                            />
-                                        </div>
-                                    
-                                    </div>
-
-                                        <div>
-                                            <div className="mt-2 flex items-center gap-x-3">
-                                                <div>
-                                                    <Avatar
-                                                        uid={user?.id as string}
-                                                        url={avatarUrl}
-                                                        size={120}
-                                                        onUpload={(url) => {
-                                                            setAvatarUrl(url);
-                                                        }}
-                                                        upload={true}
-                                                        className="rounded-full ring-8 ring-white dark:ring-slate-950"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                                                
-
-                                    <button type="submit" className={`w-full text-white bg-orange-400 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800 transition duration-300 ease-in-out`}>{loading ? "Loading..." : "Create a Profile"}</button>
-
-                                    <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                        Already have an account? <Link href="/login"
-                                        className="font-medium text-orange-600 hover:underline dark:text-orange-500">Login here</Link>
-                                    </p>
-                                </form>
-                            </div>
-                        )}
                     </div> 
                 </div>
             </section>

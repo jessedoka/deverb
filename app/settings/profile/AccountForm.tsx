@@ -72,7 +72,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
             if (error) throw error;
             alert('Profile updated!');
         } catch (error: any) {
-            alert('Error updating the data!');
+            alert('Error updating the data!' + error.message);
             // alert(error.message)
         } finally {
             setLoading(false);
@@ -81,6 +81,12 @@ export default function AccountForm({ session }: { session: Session | null; }) {
 
     return (
         <main className='bg-gray-50 dark:bg-gray-900 p-5'>
+            {/* check if an account exists for the user */}
+            {!user && (
+                <div className='text-center'>
+                    <h1 className='text-2xl font-semibold'>You must be signed in to edit your profile</h1>
+                </div>
+            )}
             <div className="flex-col items-center justify-center mx-auto max-w-4xl">
                 <div className="border-b border-gray-900/10 dark:border-gray-400 pb-12 mb-5">
                     <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-white">Profile</h2>
@@ -140,8 +146,15 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                                         size={120}
                                         onUpload={(url) => {
                                             setAvatarUrl(url);
+                                            updateProfile({
+                                                username,
+                                                fullname,
+                                                website,
+                                                avatar_url: url,
+                                                description
+                                            });
                                         }}
-                                        upload={true}
+                                        
                                         className="rounded-full ring-8 ring-white dark:ring-slate-950"
                                     />
                                 </div>
@@ -189,6 +202,8 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                                     autoComplete="given-name"
                                     className="block w-full rounded-md 
                                     bg-white dark:bg-slate-900 border-0 py-1.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6"
+                                    value={fullname || ''}
+                                    onChange={(e) => setFullname(e.target.value)}
 
                                 />
                             </div>
@@ -208,113 +223,14 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                                     bg-white dark:bg-slate-900 
                                     text-gray-900 dark:text-white 
                                     border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6"
+                                    disabled={true}
                                 />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="border-b border-gray-900/10 dark:border-gray-400 pb-12">
-                    <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-white">Notifications</h2>
-                    <p className="mt-1 text-sm leading-6 text-gray-600">
-                        We will always let you know about important changes, but you pick what else you want to hear about.
-                    </p>
-
-                    <div className="mt-10 space-y-10">
-                        <fieldset>
-                            <legend className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">By Email</legend>
-                            <div className="mt-6 space-y-6">
-                                <div className="relative flex gap-x-3">
-                                    <div className="flex h-6 items-center">
-                                        <input
-                                            id="comments"
-                                            name="comments"
-                                            type="checkbox"
-                                            className="h-4 w-4 rounded border-gray-300 text-orange-600 focus:ring-orange-600"
-                                        />
-                                    </div>
-                                    <div className="text-sm leading-6">
-                                        <label htmlFor="comments" className="font-medium text-gray-900 dark:text-white">
-                                            Comments
-                                        </label>
-                                        <p className="text-gray-500">Get notified when someones posts a comment on a posting.</p>
-                                    </div>
-                                </div>
-                                <div className="relative flex gap-x-3">
-                                    <div className="flex h-6 items-center">
-                                        <input
-                                            id="candidates"
-                                            name="candidates"
-                                            type="checkbox"
-                                            className="h-4 w-4 rounded border-gray-300 text-orange-600 focus:ring-orange-600"
-                                        />
-                                    </div>
-                                    <div className="text-sm leading-6">
-                                        <label htmlFor="candidates" className="font-medium text-gray-900 dark:text-white">
-                                            Candidates
-                                        </label>
-                                        <p className="text-gray-500">Get notified when a candidate applies for a job.</p>
-                                    </div>
-                                </div>
-                                <div className="relative flex gap-x-3">
-                                    <div className="flex h-6 items-center">
-                                        <input
-                                            id="offers"
-                                            name="offers"
-                                            type="checkbox"
-                                            className="h-4 w-4 rounded border-gray-300 text-orange-600 focus:ring-orange-600"
-                                        />
-                                    </div>
-                                    <div className="text-sm leading-6">
-                                        <label htmlFor="offers" className="font-medium text-gray-900 dark:text-white">
-                                            Offers
-                                        </label>
-                                        <p className="text-gray-500">Get notified when a candidate accepts or rejects an offer.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <legend className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Push Notifications</legend>
-                            <p className="mt-1 text-sm leading-6 text-gray-600">These are delivered via SMS to your mobile phone.</p>
-                            <div className="mt-6 space-y-6">
-                                <div className="flex items-center gap-x-3">
-                                    <input
-                                        id="push-everything"
-                                        name="push-notifications"
-                                        type="radio"
-                                        className="h-4 w-4 border-gray-300 text-orange-600 focus:ring-orange-600"
-                                    />
-                                    <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
-                                        Everything
-                                    </label>
-                                </div>
-                                <div className="flex items-center gap-x-3">
-                                    <input
-                                        id="push-email"
-                                        name="push-notifications"
-                                        type="radio"
-                                        className="h-4 w-4 border-gray-300 text-orange-600 focus:ring-orange-600"
-                                    />
-                                    <label htmlFor="push-email" className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
-                                        Same as email
-                                    </label>
-                                </div>
-                                <div className="flex items-center gap-x-3">
-                                    <input
-                                        id="push-nothing"
-                                        name="push-notifications"
-                                        type="radio"
-                                        className="h-4 w-4 border-gray-300 text-orange-600 focus:ring-orange-600"
-                                    />
-                                    <label htmlFor="push-nothing" className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
-                                        No push notifications
-                                    </label>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                </div>
+                
                 <div className="mt-6 flex items-center justify-end gap-x-6">
                     <form action="/auth/signout" method="post">
                         <button type="submit" className="button block bg-red-500 text-white hover:bg-red-600 rounded-md p-2">
@@ -325,10 +241,19 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                         Cancel
                     </button>
                     <button
-                        type="submit"
                         className="rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                        onClick={() => {
+                            updateProfile({
+                                username,
+                                fullname,
+                                website,
+                                avatar_url,
+                                description
+                            });
+                        }}
+                        disabled={loading}
                     > 
-                        Save
+                        {loading ? 'Loading...' : 'Save'}  
                     </button>
                 </div>
             </div>
