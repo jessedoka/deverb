@@ -4,7 +4,7 @@ import type { Database } from "@/lib/database.types";
 import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Avatar from '@/components/avatar';
 import { Link2 } from 'lucide-react';
-import Link from 'next/link';
+import Image from 'next/image';
 
 
 
@@ -54,8 +54,9 @@ export default function ProfileForm({ session, params }: { session: Session | nu
         <div>
             <div className='relative'>
                 <div className='h-48 bg-gray-200 dark:bg-gray-800 z-0'>
+                    <Image src='https://66.media.tumblr.com/45382bf795b4cb4d8c74ae39c1be8a66/tumblr_p2fck1R4kG1x1d5i9o1_500.jpg' width="2070" height="0" alt="" className='h-48 bg-gray-200 dark:bg-gray-800 z-0 object-cover' />
                     {username && (
-                        <span className='right-10 bottom-24 absolute text-7xl font-semibold'>@{username}</span>
+                        <span className='right-10 bottom-24 absolute text-7xl font-semibold text-white'>@{username}</span>
                     )}
                 </div>
                 <div>
