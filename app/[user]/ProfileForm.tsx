@@ -103,7 +103,7 @@ export default function ProfileForm({ session, params }: { session: Session | nu
                 <div className="max-w-[90rem] mx-auto px-5">
                     <div className="flex md:justify-between items-center">
                         <div className='flex space-x-3'>
-                            <div className='bg-gray-200 dark:bg-gray-800 rounded-lg p-2 space-x-2 flex items-center'>
+                            <div className='rounded-lg p-2 space-x-2 flex items-center border hover:bg-gray-100 dark:hover:bg-gray-700 duration-500'>
                                 <Link2 size={24} />
                                 <a href={
                                     website?.startsWith('http') ? website : `https://${website}`
@@ -111,7 +111,7 @@ export default function ProfileForm({ session, params }: { session: Session | nu
                             </div>
 
                             {/* follow button */}
-                            <div className='bg-gray-200 dark:bg-gray-800 rounded-lg p-2 space-x-2 flex items-center'>
+                            <div className='border rounded-lg p-2 space-x-2 flex items-center hover:bg-gray-100 dark:hover:bg-gray-700 duration-500'>
                                 {/* follow button */}
                                 <button>
                                     <span>Follow</span>
@@ -119,7 +119,7 @@ export default function ProfileForm({ session, params }: { session: Session | nu
                             </div>
                         </div>
                         
-                        <div className='bg-gray-200 dark:bg-gray-800 rounded-lg p-2 space-x-2 flex items-center'>
+                        <div className='border rounded-lg p-2 space-x-2 flex items-center hover:bg-gray-100 dark:hover:bg-gray-700 duration-500'>
                             {/* edit profile */}
                             {
                                 session_id === id ? (

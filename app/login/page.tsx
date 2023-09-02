@@ -40,7 +40,7 @@ const Login = () => {
 
 
             if (error) throw error
-            router.push(``)
+            router.push(`/`)
             
         } catch (error: any) {
             setMessage([error.error_description || error.message, 0])
