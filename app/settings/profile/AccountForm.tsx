@@ -167,7 +167,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                         </div>
 
                         <div className="col-span-full">
-                            <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
+                            <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900 dark:text-white mb-4">
                                 Cover photo
                             </label>
                             <Banner

@@ -56,7 +56,7 @@ export default function ProfileForm({ session, params }: { session: Session | nu
     return (
         <div>
             <div className='relative'>
-                <div className='h-48  bg-gray-200 dark:bg-gray-800 z-0 w-full'>
+                <div className='h-48 bg-gray-200 dark:bg-gray-800 z-0 w-full'>
                     <Banner
                         uid={params.user}
                         url={banner_url}
@@ -65,13 +65,14 @@ export default function ProfileForm({ session, params }: { session: Session | nu
                             setBannerUrl(url);
                         }}
                         upload={false}
-                        className='absolute z-0 rounded-lg ring-8 ring-white dark:ring-slate-950 bottom-0' />
+                        className='absolute z-0 w-full h-full object-cover' 
+                    />
                     {username && (
                         <span className='md:right-10 md:bottom-24 absolute text-7xl font-semibold text-white'>@{username}</span>
                     )}
                 </div>
                 <div>
-                    <div className='px-64 py-5 item-center'>
+                    <div className='px-64 my-10 item-center'>
                         <Avatar
                             uid={params.user}
                             url={avatar_url}
@@ -80,7 +81,7 @@ export default function ProfileForm({ session, params }: { session: Session | nu
                                 setAvatarUrl(url);
                             }}
                             upload={false}
-                            className='absolute z-10 rounded-full ring-8 ring-white dark:ring-slate-950 bottom-0' />
+                            className='absolute z-10 my-[-3rem] rounded-full ring-8 ring-white dark:ring-slate-950 bottom-0' />
                     </div>
                 </div>
             </div>
