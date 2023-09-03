@@ -12,6 +12,7 @@ export interface Database {
       profiles: {
         Row: {
           avatar_url: string | null
+          banner_url: string | null
           created_at: string | null
           description: string | null
           full_name: string | null
@@ -22,6 +23,7 @@ export interface Database {
         }
         Insert: {
           avatar_url?: string | null
+          banner_url?: string | null
           created_at?: string | null
           description?: string | null
           full_name?: string | null
@@ -32,6 +34,7 @@ export interface Database {
         }
         Update: {
           avatar_url?: string | null
+          banner_url?: string | null
           created_at?: string | null
           description?: string | null
           full_name?: string | null

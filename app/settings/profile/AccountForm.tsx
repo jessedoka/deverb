@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { Database } from "@/lib/database.types";
 import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Avatar from '@/components/avatar';
-import { PhotoIcon } from '@heroicons/react/24/solid'
+import Banner from '@/components/banner';
 
 
 export default function AccountForm({ session }: { session: Session | null; }) {
@@ -14,6 +14,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
     const [description, setDescription] = useState<string | null>(null);
     const [website, setWebsite] = useState<string | null>(null);
     const [avatar_url, setAvatarUrl] = useState<string | null>(null);
+    const [banner_url, setBannerUrl] = useState<string | null>(null);
     const user = session?.user;
 
     const getProfile = useCallback(async () => {
@@ -22,7 +23,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
 
             let { data, error, status } = await supabase
                 .from('profiles')
-                .select(`full_name, username, description, website, avatar_url`)
+                .select(`full_name, username, description, website, avatar_url, banner_url`)
                 .eq('id', user?.id)
                 .single();
 
@@ -36,6 +37,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                 setDescription(data.description);
                 setWebsite(data.website);
                 setAvatarUrl(data.avatar_url);
+                setBannerUrl(data.banner_url);
             }
         } catch (error) {
             alert('Error loading user data!');
@@ -49,12 +51,13 @@ export default function AccountForm({ session }: { session: Session | null; }) {
     }, [user, getProfile]);
 
     async function updateProfile({
-        username, website, avatar_url, description
+        username, website, avatar_url, banner_url, description
     }: {
         username: string | null;
         fullname: string | null;
         website: string | null;
         avatar_url: string | null;
+        banner_url: string | null;
         description: string | null;
     }) {
         try {
@@ -67,6 +70,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                 description,
                 website,
                 avatar_url,
+                banner_url,
                 updated_at: new Date().toISOString(),
             });
             if (error) throw error;
@@ -151,6 +155,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                                                 fullname,
                                                 website,
                                                 avatar_url: url,
+                                                banner_url,
                                                 description
                                             });
                                         }}
@@ -165,22 +170,23 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                             <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
                                 Cover photo
                             </label>
-                            <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 dark:border-gray-300/25   px-6 py-10">
-                                <div className="text-center">
-                                    <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
-                                    <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                                        <label
-                                            htmlFor="file-upload"
-                                            className="relative cursor-pointer rounded-md bg-white font-semibold text-orange-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-orange-400 focus-within:ring-offset-2 hover:text-orange-500 px-2"
-                                        >
-                                            <span>Upload a file</span>
-                                            <input id="file-upload" name="file-upload" type="file" className="sr-only" />
-                                        </label>
-                                        <p className="pl-1">or drag and drop</p>
-                                    </div>
-                                    <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-                                </div>
-                            </div>
+                            <Banner
+                                uid={user?.id as string}
+                                url={banner_url}
+                                size={2070}
+                                onUpload={(url) => {
+                                    setBannerUrl(url);
+                                    updateProfile({
+                                        username,
+                                        fullname,
+                                        website,
+                                        avatar_url,
+                                        banner_url: url,
+                                        description
+                                    });
+                                }}
+                                className="rounded-md ring-8 ring-white dark:ring-slate-950"
+                            />
                         </div>
                     </div>
                 </div>
@@ -248,6 +254,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                                 fullname,
                                 website,
                                 avatar_url,
+                                banner_url,
                                 description
                             });
                         }}

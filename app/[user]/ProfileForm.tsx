@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { Database } from "@/lib/database.types";
 import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Avatar from '@/components/avatar';
+import Banner from '@/components/banner';
 import { Link2 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -15,6 +16,7 @@ export default function ProfileForm({ session, params }: { session: Session | nu
     const [username, setUsername] = useState<string | null>(null);
     const [website, setWebsite] = useState<string | null>(null);
     const [avatar_url, setAvatarUrl] = useState<string | null>(null);
+    const [banner_url, setBannerUrl] = useState<string | null>(null);
     const [id, setId] = useState<string | null>(null);
     const session_id = session?.user?.id;
 
@@ -24,7 +26,7 @@ export default function ProfileForm({ session, params }: { session: Session | nu
 
             let { data, error, status } = await supabase
                 .from('profiles')
-                .select(`id, full_name, username, description, website, avatar_url`)
+                .select(`id, full_name, username, description, website, avatar_url, banner_url`)
                 .eq('username', params.user)
                 .single();
 
@@ -37,6 +39,7 @@ export default function ProfileForm({ session, params }: { session: Session | nu
                 setUsername(data.username);
                 setWebsite(data.website);
                 setAvatarUrl(data.avatar_url);
+                setBannerUrl(data.banner_url);
                 setId(data.id);
             }
         } catch (error) {
@@ -53,10 +56,18 @@ export default function ProfileForm({ session, params }: { session: Session | nu
     return (
         <div>
             <div className='relative'>
-                <div className='h-48 bg-gray-200 dark:bg-gray-800 z-0'>
-                    <Image src='https://66.media.tumblr.com/45382bf795b4cb4d8c74ae39c1be8a66/tumblr_p2fck1R4kG1x1d5i9o1_500.jpg' width="2070" height="0" alt="" className='h-48 bg-gray-200 dark:bg-gray-800 z-0 object-cover' />
+                <div className='h-48  bg-gray-200 dark:bg-gray-800 z-0 w-full'>
+                    <Banner
+                        uid={params.user}
+                        url={banner_url}
+                        size={120}
+                        onUpload={(url) => {
+                            setBannerUrl(url);
+                        }}
+                        upload={false}
+                        className='absolute z-0 rounded-lg ring-8 ring-white dark:ring-slate-950 bottom-0' />
                     {username && (
-                        <span className='right-10 bottom-24 absolute text-7xl font-semibold text-white'>@{username}</span>
+                        <span className='md:right-10 md:bottom-24 absolute text-7xl font-semibold text-white'>@{username}</span>
                     )}
                 </div>
                 <div>
