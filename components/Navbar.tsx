@@ -104,8 +104,7 @@ export default function Navbar({ session }: { session: Session | null; }) {
             path: null, // no path for dropdown menu
         },
     ] : [
-        { title: 'Login', path: '/login' },
-        { title: 'Register', path: '/register' },
+        { title: 'Login', path: '/login', classname: '' },
     ];
 
     return (
@@ -127,7 +126,7 @@ export default function Navbar({ session }: { session: Session | null; }) {
                                 <Link href={item.path ?? ''} key={index}>
                                     {/* check if child is an image */}
                                     {typeof item.title === 'string' ? (
-                                        <span className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 block transition duration-1000 px-3 py-2 rounded-md font-medium border'>
+                                        <span className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 block transition duration-1000 px-3 py-2 rounded-md font-medium'>
                                             {item.title}
                                         </span>
                                     ) : (
@@ -163,7 +162,6 @@ export default function Navbar({ session }: { session: Session | null; }) {
                     </div>
                 </div>
             </div>
-
         </nav>
     );
 }
