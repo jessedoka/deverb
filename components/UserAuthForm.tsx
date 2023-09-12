@@ -58,8 +58,7 @@ const UserAuthForm = () => {
         <>
             <section>
                 <div className="flex flex-col items-center justify-center mx-auto lg:py-0">
-
-                    {/* message */}
+                    
                     {message && (
                         <div className={`px-4 py-2 mb-4 text-sm text-white  rounded-md  ${message[1] === 0 ? 'bg-red-500' : 'bg-green-500'}`}>
                             {message[0]}
