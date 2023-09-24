@@ -127,7 +127,7 @@ const UserAuthForm = () => {
 
                             <button type="submit" className={`w-full text-white bg-orange-400 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800 transition duration-300 ease-in-out ${!email || !password || !passwordConfirm || !captchaToken ? 'opacity-50 cursor-not-allowed' : ''}`}>{loading ? "Loading..." : "Create an account"}</button>
 
-                            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                            <p className="text-sm font-light text-gray-500 dark:text-gray-400 text-center">
                                 Already have an account? <Link href="/login"
                                     className="font-medium text-orange-600 hover:underline dark:text-orange-500">Login here</Link>
                             </p>
