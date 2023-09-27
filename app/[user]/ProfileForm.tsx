@@ -69,7 +69,7 @@ export default function ProfileForm({ session, params }: { session: Session | nu
                     )}
                 </div>
                 <div>
-                    <div className='px-64 my-10 item-center'>
+                    <div className='md:px-32 my-10 item-center'>
                         <Avatar
                             uid={params.user}
                             url={avatar_url}
