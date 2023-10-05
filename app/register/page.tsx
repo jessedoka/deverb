@@ -39,7 +39,7 @@ const Register = () => {
                 email, 
                 password,
                 options: {
-                    emailRedirectTo: 'http://localhost:3000/auth/callback',
+                    emailRedirectTo: `${location.origin}auth/callback`,
                     captchaToken,
                 }
             })
