@@ -6,7 +6,6 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import HCaptcha from "@hcaptcha/react-hcaptcha"
 import Link from "next/link"
 import { useTheme } from "next-themes"
-import Navbar from "@/components/Navbar"
 
 const UserAuthForm = () => {
     const supabase = createClientComponentClient()
@@ -60,7 +59,7 @@ const UserAuthForm = () => {
                 <div className="flex flex-col items-center justify-center mx-auto lg:py-0">
                     
                     {message && (
-                        <div className={`px-4 py-2 mb-4 text-sm text-white  rounded-md  ${message[1] ? 'bg-red-500' : 'bg-green-500'}`}>
+                        <div className={`px-4 py-2 mb-4 text-sm text-white rounded-md ${message[0] === '' ? '' : (message[1] ? 'bg-green-500' : 'bg-red-500')}`}>
                             {message[0]}
                         </div>
                     )}
