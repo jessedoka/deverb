@@ -31,8 +31,6 @@ export default function Navbar({ session }: { session: Session | null; }) {
                 .eq('id', user?.id as string)
                 .single();
 
-            console.log(data);
-
             if (error && status !== 406) {
                 throw error;
             }

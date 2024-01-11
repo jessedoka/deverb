@@ -1,14 +1,13 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
-import type { Database } from "@/lib/database.types";
-import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useState, useEffect } from 'react';
+import { Session } from '@supabase/auth-helpers-nextjs';
 import Avatar from '@/components/avatar';
 import Banner from '@/components/banner';
 import { Link2 } from 'lucide-react';
 
+import { useProfileData } from '@/hooks/useProfiledata';
+
 export default function ProfileForm({ session, params }: { session: Session | null; params: { user: string; }; }) {
-    const supabase = createClientComponentClient<Database>();
-    const [loading, setLoading] = useState(true);
     const [fullname, setFullname] = useState<string | null>(null);
     const [username, setUsername] = useState<string | null>(null);
     const [website, setWebsite] = useState<string | null>(null);
@@ -17,38 +16,24 @@ export default function ProfileForm({ session, params }: { session: Session | nu
     const [id, setId] = useState<string | null>(null);
     const session_id = session?.user?.id;
 
-    const getProfile = useCallback(async () => {
-        try {
-            setLoading(true);
+    // Use the custom hook here
+    const { profileData, loading, error } = useProfileData(params.user);
 
-            let { data, error, status } = await supabase
-                .from('profiles')
-                .select(`id, full_name, username, description, website, avatar_url, banner_url`)
-                .eq('username', params.user)
-                .single();
-
-            if (error && status === 406) {
-                throw new Error(error.message);
-            }
-
-            if (data) {
-                setFullname(data.full_name);
-                setUsername(data.username);
-                setWebsite(data.website);
-                setAvatarUrl(data.avatar_url);
-                setBannerUrl(data.banner_url);
-                setId(data.id);
-            }
-        } catch (error) {
-            throw new Error("Error getting profile");
-        } finally {
-            setLoading(false);
-        }
-    }, [params.user, supabase]);
-
+    // Update state when profileData changes
     useEffect(() => {
-        getProfile();
-    }, [getProfile]);
+        if (profileData) {
+            setId(profileData.id);
+            setAvatarUrl(profileData.avatar_url);
+            setBannerUrl(profileData.banner_url);
+            setFullname(profileData.full_name);
+            setUsername(profileData.username);
+            setWebsite(profileData.website);
+        }
+    }, [profileData]);
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error.message}</div>;
+    
 
     return (
         <div>
