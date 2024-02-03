@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from 'next/link'
-import Logo from '@/components/logo';
 import Avatar from '@/components/avatar';
 import Banner from '@/components/banner';
 import { CardContent, Card } from "@/components/ui/card"
@@ -37,7 +36,6 @@ export default function Sidebar() {
     return (
         <div className="w-[18rem] bg-white dark:bg-gray-900 p-4">
             <div className="flex flex-col items-center justify-center space-y-4">
-                <Logo />
                 <Card>
                     <CardContent>
                         <div className="flex flex-col items-center justify-center">

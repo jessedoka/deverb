@@ -1,6 +1,7 @@
 
 import Link from "next/link"
 import Logo from "@/components/logo"
+import Sidebar from "@/components/sidebar"
 
 export default function Account() {
   return (
@@ -14,9 +15,7 @@ export default function Account() {
           </div>
           <div className="flex-1 overflow-auto py-2">
             {/* profile banner */}
-            <div className="border">
-
-            </div>
+            <Sidebar />
           </div>
         </div>
       </div>
