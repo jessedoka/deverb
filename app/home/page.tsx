@@ -1,62 +1,37 @@
-"use client";
-import { useEffect, useState } from "react";    
-import Link from 'next/link'
-import Logo from '@/components/logo';
 
-import { useProfileData } from '@/hooks/useProfiledata';
+import Link from "next/link"
+import Logo from "@/components/logo"
 
 export default function Account() {
-    const [fullname, setFullname] = useState<string | null>(null);
-    const [username, setUsername] = useState<string | null>(null);
-    const [website, setWebsite] = useState<string | null>(null);
-    const [avatar_url, setAvatarUrl] = useState<string | null>(null);
-    const [banner_url, setBannerUrl] = useState<string | null>(null);
-    const [id, setId] = useState<string | null>(null);
+  return (
+    <div className="grid min-h-screen w-full lg:grid-cols-[400px_1fr]">
+      <div className="hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
+        <div className="flex h-full max-h-screen flex-col gap-2">
+          <div className="flex h-[60px] border-b justify-center">
+            <Link className="flex items-center gap-2 font-semibold" href="#">
+              <Logo />
+            </Link>
+          </div>
+          <div className="flex-1 overflow-auto py-2">
+            {/* profile banner */}
+            <div className="border">
 
-    // Use the custom hook here
-    const { profileData, loading, error } = useProfileData('');
-
-    useEffect(() => {
-        if (profileData) {
-            setId(profileData.id);
-            setAvatarUrl(profileData.avatar_url);
-            setBannerUrl(profileData.banner_url);
-            setFullname(profileData.full_name);
-            setUsername(profileData.username);
-            setWebsite(profileData.website);
-        }
-    }
-    , [profileData]);
-
-    console.log(profileData)
-
-    return (
-        <div className='flex p-5'>
-            <div className='flex-col'>
-                {/* logo */}
-                <Link href='/home'>
-                    <Logo />
-                </Link>
-                {/* profile info */}
-                <div className='border border-white'>
-                    {/* profile picture */}
-                    {/* username */}
-                    {/* bio */}
-                    {/* edit profile */}
-                </div>
             </div>
-            <hr />
-            <div>
-                {/* feed */}
-                {/* list of projects (div) */}
-            </div>
-            <hr />
-            <div>
-                {/* search */}
-                {/* last viewed projects. */}
-                {/* recommed projects*** */}
-            </div>
+          </div>
         </div>
-    )
-
+      </div>
+      <div className="flex flex-col">
+        <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
+        </header>
+        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+          <div className="flex items-center">
+            <h1 className="font-semibold text-lg md:text-2xl">Projects</h1>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            
+          </div>
+        </main>
+      </div>
+    </div>
+  )
 }
