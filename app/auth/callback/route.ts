@@ -7,8 +7,10 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url)
     const code = searchParams.get('code')
 
-    if (code) {
-        await supabase.auth.exchangeCodeForSession(code)        
+    try {
+        if (code) await supabase.auth.exchangeCodeForSession(code)        
+    } catch (error) {
+        console.error('Error exchanging code for session:', error)
     }
 
     return NextResponse.redirect(new URL('/settings/profile', req.url))

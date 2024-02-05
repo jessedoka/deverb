@@ -3,7 +3,8 @@ import Link from "next/link"
 import Logo from "@/components/logo"
 import Sidebar from "@/components/sidebar"
 
-export default function Account() {
+export default function Home() {
+
   return (
     <div className="grid min-h-screen w-full lg:grid-cols-[400px_1fr]">
       <div className="hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
@@ -13,8 +14,7 @@ export default function Account() {
               <Logo />
             </Link>
           </div>
-          <div className="flex-1 overflow-auto py-2">
-            {/* profile banner */}
+          <div className="flex justify-center">
             <Sidebar />
           </div>
         </div>

@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { ModeToggle } from "@/components/ModeToggle"
 
-const Home = () => {
+export default function Landing(){
   return (
     <>
       <div className="md:hidden">
@@ -77,8 +77,6 @@ const Home = () => {
     </>
   )
 }
-
-export default Home
 
 
 
