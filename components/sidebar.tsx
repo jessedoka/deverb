@@ -40,34 +40,30 @@ export default function Sidebar() {
         });
     };
 
-    if (!profileData) {
-        // go to /settings/profile to create a profile
-       router.push('/settings/profile');
-    }
-
     return (
-        <div className="w-[20rem] border rounded-md relative mt-5">
+        <div className="w-[20rem] rounded-md relative mt-5">
             <div className="border-b  h-24 z-[-1] w-full">
                 <Banner uid={""} url={banner_url} size={100} onUpload={(url) => {
                     setBannerUrl(url)
-                }} upload={false} className="absolute z-[-1] w-full h-24 object-cover rounded-t-lg"
+                }} upload={false} className="absolute z-[-1] w-full h-24 object-cover rounded-t-md"
                 /> 
             </div>   
-            <div className="flex items-center justify-center my-16">
-                <Avatar uid='' url={avatar_url} size={80} onUpload={(url) => {
-                    setAvatarUrl(url);
-                }} upload={false} className="absolute z-10 rounded-full ring-8 ring-white dark:ring-slate-950 inset-0 mx-auto my-16 object-cover"
-                />  
-                <h2 className="text-xl font-semibold">{fullname}</h2>
-            </div> 
+            <div className="border rounded-b-md">
+                <div className="flex items-center justify-center my-16">
+                    <Avatar uid='' url={avatar_url} size={80} onUpload={(url) => {
+                        setAvatarUrl(url);
+                    }} upload={false} className="absolute z-10 rounded-full ring-8 ring-white dark:ring-slate-950 inset-0 mx-auto my-16 object-cover"
+                    />
+                    <h2 className="text-xl font-semibold">{fullname}</h2>
+                </div>
 
-            <div className="flex flex-col items-center gap-4 mb-3">
-                <Link href={`/${username}`} className="">
-                    Profile
-                </Link>
-                <button onClick={signOut}>Sign Out</button>
+                <div className="flex flex-col items-center gap-4 mb-3">
+                    <Link href={`/${username}`} className="px-14 p-1 rounded-md bg-slate-800 hover:bg-slate-900 duration-500">
+                        My Profile
+                    </Link>
+                    <button onClick={signOut} className="px-14 p-1 rounded-lg bg-red-600 hover:bg-red-800 duration-500">Sign Out</button>
+                </div>
             </div>
-
         </div>
     );
 }

@@ -22,12 +22,45 @@ export default function Home() {
       <div className="flex flex-col">
         <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-          <div className="flex items-center">
-            <h1 className="font-semibold text-lg md:text-2xl">Projects</h1>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            
+        <main className="flex">
+          <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+            <div className="flex items-center">
+              <h1 className="font-semibold text-lg md:text-2xl">Feed</h1>
+            </div>
+            <div className="">
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-2">
+                    <h2 className="font-semibold text-lg">Post 1</h2>
+                    <p className="text-sm">This is a post</p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h2 className="font-semibold text-lg">Post 2</h2>
+                    <p className="text-sm">This is a post</p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2">
+                  <h2 className="font-semibold text-lg">Post 3</h2>
+                  <p className="text-sm">This is a post</p>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <h2 className="font-semibold text-lg">Post 4</h2>
+                  <p className="text-sm">This is a post</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2">
+                  <h2 className="font-semibold text-lg">Post 5</h2>
+                  <p className="text-sm">This is a post</p>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <h2 className="font-semibold text-lg">Post 6</h2>
+                  <p className="text-sm">This is a post</p>
+                </div>
+              </div>
+            </div>
           </div>
         </main>
       </div>
