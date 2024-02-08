@@ -4,7 +4,7 @@ import { Database } from '@/lib/database.types'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Image from 'next/image'
 
-type Profiles = Database['public']['Tables']['profiles']['Row']
+type Users = Database['public']['Tables']['users']['Row']
 
 export default function Banner({
     uid,
@@ -15,14 +15,14 @@ export default function Banner({
     className,
 }: {
     uid: string
-    url: Profiles['banner_url']
+    url: Users['banner_url']
     size: number
     onUpload: (url: string) => void
     upload?: boolean
     className?: string
 }) {
     const supabase = createClientComponentClient<Database>()
-    const [bannerUrl, setBannerUrl] = useState<Profiles['banner_url']>(url)
+    const [bannerUrl, setBannerUrl] = useState<Users['banner_url']>(url)
     const [uploading, setUploading] = useState(false)
 
     const [error, setError] = useState<string | null>(null)

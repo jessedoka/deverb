@@ -29,10 +29,8 @@ export default function Sidebar() {
             setFullname(profileData.full_name);
             setUsername(profileData.username);
         }
-    }
-    ,[profileData]);
+    },[profileData]);
 
-    console.log(profileData)
 
     const signOut = () => {
         supabase.auth.signOut().then(() => {

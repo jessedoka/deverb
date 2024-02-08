@@ -5,7 +5,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Image from 'next/image'
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 
-type Profiles = Database['public']['Tables']['profiles']['Row']
+type Users = Database['public']['Tables']['users']['Row']
 
 export default function Avatar({
     uid,
@@ -16,14 +16,14 @@ export default function Avatar({
     className,
 }: {
     uid: string
-    url: Profiles['avatar_url']
+    url: Users['avatar_url']
     size: number
     onUpload: (url: string) => void
     upload?: boolean
     className?: string
 }) {
     const supabase = createClientComponentClient<Database>()
-    const [avatarUrl, setAvatarUrl] = useState<Profiles['avatar_url']>(url)
+    const [avatarUrl, setAvatarUrl] = useState<Users['avatar_url']>(url)
     const [uploading, setUploading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 

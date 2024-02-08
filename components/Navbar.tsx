@@ -26,7 +26,7 @@ export default function Navbar({ session }: { session: Session | null; }) {
     const fetchPP = useCallback(async () => {
         try {
             let { data, error, status } = await supabase
-                .from('profiles')
+                .from('users')
                 .select(`avatar_url, username`)
                 .eq('id', user?.id as string)
                 .single();

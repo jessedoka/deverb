@@ -23,7 +23,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
             setLoading(true);
 
             let { data, error, status } = await supabase
-                .from('profiles')
+                .from('users')
                 .select(`full_name, username, description, website, avatar_url, banner_url`)
                 .eq('id', user?.id as string)
                 .single();
@@ -64,7 +64,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
         try {
             setLoading(true);
 
-            let { error } = await supabase.from('profiles')
+            let { error } = await supabase.from('users')
                 .upsert(
                     {
                         id: user?.id as string,
