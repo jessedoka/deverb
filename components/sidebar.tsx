@@ -56,10 +56,10 @@ export default function Sidebar() {
                 </div>
 
                 <div className="flex flex-col items-center gap-4 mb-3">
-                    <Link href={`/${username}`} className="px-14 p-1 rounded-md bg-slate-800 hover:bg-slate-900 duration-500">
+                    <Link href={`/${username}`} className="px-14 p-1 rounded-md bg-slate-100 hover:bg-slate-300 dark:text-white  dark:bg-slate-800 dark:hover:bg-slate-900 duration-500">
                         My Profile
                     </Link>
-                    <button onClick={signOut} className="px-14 p-1 rounded-lg bg-red-600 hover:bg-red-800 duration-500">Sign Out</button>
+                    <button onClick={signOut} className="px-14 p-1 rounded-lg bg-red-600 hover:bg-red-800 duration-500 text-white">Sign Out</button>
                 </div>
             </div>
         </div>
