@@ -15,7 +15,7 @@ export default function Landing(){
           <Logo force={true}/>
         </Link>
       </div>
-      <div className="container relative hidden h-[60.3rem] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="container relative h-screen hidden flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
           href="/login"
           className={cn(

@@ -64,7 +64,7 @@ const Register = () => {
 
                     {/* message */}
                     {message && (
-                        <div className={`px-4 py-2 mb-4 text-sm text-white  rounded-md  ${message[1] ? 'bg-red-500' : 'bg-green-500'}`}>
+                        <div className={`px-4 py-2 mb-4 text-sm text-white  rounded-md  ${message[0] === '' ? '' : (message[1] ? 'bg-green-500' : 'bg-red-500')}`}>
                             {message[0]}
                         </div>
                     )}
