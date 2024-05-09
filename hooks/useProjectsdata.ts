@@ -6,7 +6,7 @@ type ProjectsData = {
     id: string;
     name: string | null;
     description: string | null;
-    profile_id: string | null;
+    author_id: string | null;
 } | null;
 
 export function useProjectsData(id: string) {
@@ -20,10 +20,10 @@ export function useProjectsData(id: string) {
         try {
             setLoading(true);
 
-            let query = supabase.from('projects').select(`id, name, description, profile_id`);
+            let query = supabase.from('projects').select(`id, name, description, author_id`);
 
            if (id) {
-                query = query.eq('profile_id', id);
+                query = query.eq('author_id', id);
             } else {
                 const {
                     data: { session },
