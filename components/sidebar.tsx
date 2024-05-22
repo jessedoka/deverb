@@ -3,12 +3,25 @@ import { useEffect, useState } from "react";
 import Link from 'next/link'
 import Avatar from '@/components/avatar';
 import Banner from '@/components/banner';
+import { BellRing, Check } from "lucide-react"
+import { Switch } from "@/components/ui/switch"
+import { cn } from "@/lib/utils"
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import type { Database } from '@/lib/database.types';
 import { useProfileData } from '@/hooks/useProfiledata';
-import { useRouter } from "next/navigation"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 
-export default function Sidebar() {
+type CardProps = React.ComponentProps<typeof Card>
+
+export default function Sidebar({ className, ...props }: CardProps) {
     const [fullname, setFullname] = useState<string | null>(null);
     const [username, setUsername] = useState<string | null>(null);
     const [avatar_url, setAvatarUrl] = useState<string | null>(null);
@@ -16,7 +29,6 @@ export default function Sidebar() {
     const [id, setId] = useState<string | null>(null);
 
     const supabase = createClientComponentClient<Database>();
-    const router = useRouter();
 
     // Use the custom hook here
     const { profileData } = useProfileData('');
@@ -25,9 +37,9 @@ export default function Sidebar() {
         if (profileData) {
             setId(profileData.id);
             setAvatarUrl(profileData.avatar_url);
-            setBannerUrl(profileData.banner_url);
             setFullname(profileData.full_name);
             setUsername(profileData.username);
+            setBannerUrl(profileData.banner_url);
         }
     },[profileData]);
 
@@ -39,29 +51,50 @@ export default function Sidebar() {
     };
 
     return (
-        <div className="w-[20rem] rounded-md relative mt-5">
-            <div className="border-b  h-24 z-[-1] w-full">
-                <Banner uid={""} url={banner_url} size={100} onUpload={(url) => {
-                    setBannerUrl(url)
-                }} upload={false} className="absolute z-[-1] w-full h-24 object-cover rounded-t-md"
-                /> 
-            </div>   
-            <div className="border rounded-b-md">
-                <div className="flex items-center justify-center my-16">
-                    <Avatar uid='' url={avatar_url} size={80} onUpload={(url) => {
-                        setAvatarUrl(url);
-                    }} upload={false} className="absolute z-10 rounded-full ring-8 ring-white dark:ring-slate-950 inset-0 mx-auto my-16 object-cover"
-                    />
-                    <h2 className="text-xl font-semibold">{fullname}</h2>
-                </div>
-
-                <div className="flex flex-col items-center gap-4 mb-3">
-                    <Link href={`/${username}`} className="px-14 p-1 rounded-md bg-slate-100 hover:bg-slate-300 dark:text-white  dark:bg-slate-800 dark:hover:bg-slate-900 duration-500">
-                        My Profile
-                    </Link>
-                    <button onClick={signOut} className="px-14 p-1 rounded-lg bg-red-600 hover:bg-red-800 duration-500 text-white">Sign Out</button>
-                </div>
+        <div className="relative w-full max-w-md">
+            <div className="aspect-[3/1] w-full object-cover">
+                <Banner
+                    uid=""
+                    url={banner_url}
+                    size={120}
+                    onUpload={(url) => {
+                        setBannerUrl(url);
+                    }}
+                    upload={false}
+                    className='absolute z-0 w-full h-full object-cover'
+                />
+                {username && (
+                    <span className='md:right-10 md:bottom-20 absolute text-9xl font-semibold text-white'>@{username}</span>
+                )}
             </div>
+            <Card className="relative -mt-12 w-full rounded-none">
+                <CardContent className="grid gap-6 p-6">
+                    <div className="flex items-center gap-4">
+                        <Avatar uid='' url={avatar_url} size={80} onUpload={(url) => {
+                            setAvatarUrl(url);
+                            }} upload={false} className="rounded-full ring-8 ring-white dark:ring-slate-950"
+                        />
+                        <div className="grid gap-1">
+                            <div className="text-lg font-medium">Jared Palmer</div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">@shadcn</div>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-4 text-sm">
+                        <div className="flex flex-col items-center gap-1">
+                            <div className="text-2xl font-medium">1.2K</div>
+                            <div className="text-gray-500 dark:text-gray-400">Posts</div>
+                        </div>
+                        <div className="flex flex-col items-center gap-1">
+                            <div className="text-2xl font-medium">12.4K</div>
+                            <div className="text-gray-500 dark:text-gray-400">Followers</div>
+                        </div>
+                        <div className="flex flex-col items-center gap-1">
+                            <div className="text-2xl font-medium">1.1K</div>
+                            <div className="text-gray-500 dark:text-gray-400">Following</div>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
         </div>
     );
 }

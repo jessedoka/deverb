@@ -8,7 +8,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import type { Database } from '@/lib/database.types';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserCircleIcon } from '@heroicons/react/24/solid'
-// dropdown menu
+import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -76,7 +76,7 @@ export default function Navbar({ session }: { session: Session | null; }) {
             title: <div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Avatar>
+                        <Avatar className='hover:cursor-pointer hover:p-1 hover:bg-neutral-800  duration-300'>
                             {avatarUrl ? (
                                 <AvatarImage src={avatarUrl} className='rounded-full' />
                             ) : (
@@ -86,7 +86,8 @@ export default function Navbar({ session }: { session: Session | null; }) {
                             )}
                         </Avatar>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                    {/* appear vertically on the right side */}
+                    <DropdownMenuContent side='right' className='ml-5'>
                         <DropdownMenuItem>
                             {/* disable if username is null */}
                             <Link href={`/${username}`} className={`${!username ? 'pointer-events-none opacity-20' : ''}`}>
@@ -106,60 +107,29 @@ export default function Navbar({ session }: { session: Session | null; }) {
     ];
 
     return (
-        <nav>
-            <div className="mx-auto p-5">
-                <div className="flex md:justify-between justify-center">
-                    <div className='flex items-center space-x-4'>
-                        <Link href='/' className={`${!username ? 'pointer-events-none opacity-20 duration-100' : ''}`}>
-                            <Logo />
-                        </Link>
-                    </div>
 
-                    {/* add a div here for a middle section */}
+        <aside className="h-screen fixed left-0 top-0 overflow-auto flex flex-col justify-between p-4 border-r">
+            <Link href='/' className={`${!username ? 'pointer-events-none opacity-20 duration-100' : ''}`}>
+                <Logo className="hover:p-1 duration-500"/>
+            </Link>
 
-                    {/* desktop view */}
-                    <div className='hidden md:block'>
-                        <div className='flex space-x-4 items-center'>
-                            {menu.map((item, index) => (
-                                <Link href={item.path ?? ''} key={index}>
-                                    {/* check if child is an image */}
-                                    {typeof item.title === 'string' ? (
-                                        <span className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 block transition duration-1000 px-3 py-2 rounded-md font-medium'>
-                                            {item.title}
-                                        </span>
-                                    ) : (
-                                        <span className=''>
-                                            {item.title}
-                                        </span>
-                                    )}
-                                </Link>
-                            ))}
+            <div className='flex flex-col space-y-4'>
+                {menu.map((item, index) => (
+                    <Link href={item.path ?? ''} key={index}>
+                        {typeof item.title === 'string' ? (
+                            <span className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 block transition duration-1000 px-3 py-2 rounded-md font-medium'>
+                                {item.title}
+                            </span>
+                        ) : (
+                            <span className=''>
+                                {item.title}
+                            </span>
+                        )}
+                    </Link>
+                ))}
 
-                            <ModeToggle />
-                        </div>
-                    </div>
-                </div>
-                {/* mobile view */}
-                <div className='md:hidden flex justify-center mt-4 space-x-2'>
-                    <ModeToggle />
-                    <div className='flex space-x-3'>
-                        {menu.map((item, index) => (
-                            <Link href={item.path ?? ''} key={index}>
-                                {/* check if child is an image */}
-                                {typeof item.title === 'string' ? (
-                                    <span className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 block transition duration-1000 px-3 py-2 rounded-md font-medium border'>
-                                        {item.title}
-                                    </span>
-                                ) : (
-                                    <span className=''>
-                                        {item.title}
-                                    </span>
-                                )}
-                            </Link>
-                        ))}
-                    </div>
-                </div>
+                <ModeToggle />
             </div>
-        </nav>
+        </aside>
     );
 }

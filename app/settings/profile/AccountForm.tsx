@@ -12,7 +12,6 @@ export default function AccountForm({ session }: { session: Session | null; }) {
     const [fullname, setFullname] = useState<string | null>(null);
     const [username, setUsername] = useState<string | null>(null);
     const [description, setDescription] = useState<string | null>(null);
-    const [website, setWebsite] = useState<string | null>(null);
     const [avatar_url, setAvatarUrl] = useState<string | null>(null);
     const [banner_url, setBannerUrl] = useState<string | null>(null);
     const [error, setError] = useState(null);
@@ -24,7 +23,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
 
             let { data, error, status } = await supabase
                 .from('users')
-                .select(`full_name, username, description, website, avatar_url, banner_url`)
+                .select(`full_name, username, description,  avatar_url, banner_url`)
                 .eq('id', user?.id as string)
                 .single();
 
@@ -36,7 +35,6 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                 setFullname(data.full_name);
                 setUsername(data.username);
                 setDescription(data.description);
-                setWebsite(data.website);
                 setAvatarUrl(data.avatar_url);
                 setBannerUrl(data.banner_url);
             }
@@ -52,11 +50,10 @@ export default function AccountForm({ session }: { session: Session | null; }) {
     }, [user, getProfile]);
 
     async function updateProfile({
-        username, website, avatar_url, banner_url, description
+        username, avatar_url, banner_url, description
     }: {
         username: string | null;
         fullname: string | null;
-        website: string | null;
         avatar_url: string | null;
         banner_url: string | null;
         description: string | null;
@@ -70,7 +67,6 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                         id: user?.id as string,
                         username,
                         full_name: fullname,
-                        website,
                         avatar_url,
                         banner_url,
                         description
@@ -165,7 +161,7 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                                             updateProfile({
                                                 username,
                                                 fullname,
-                                                website,
+                                           
                                                 avatar_url: url,
                                                 banner_url,
                                                 description
@@ -191,7 +187,6 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                                     updateProfile({
                                         username,
                                         fullname,
-                                        website,
                                         avatar_url,
                                         banner_url: url,
                                         description
@@ -264,7 +259,6 @@ export default function AccountForm({ session }: { session: Session | null; }) {
                             updateProfile({
                                 username,
                                 fullname,
-                                website,
                                 avatar_url,
                                 banner_url,
                                 description

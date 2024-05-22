@@ -7,7 +7,6 @@ type ProfileData = {
   full_name: string | null;
   username: string | null;
   description: string | null;   
-  website: string | null;
   avatar_url: string | null;
   banner_url: string | null;
 } | null;
@@ -23,7 +22,7 @@ export function useProfileData(username: string) {
         try {
         setLoading(true);
 
-        let query = supabase.from('users').select(`id, full_name, username, description, website, avatar_url, banner_url`);
+        let query = supabase.from('users').select(`id, full_name, username, description, avatar_url, banner_url`);
 
         if (username) {
             query = query.eq('username', username);

@@ -12,8 +12,8 @@ export default async function Profile({params}: {params: {user: string}}) {
     } = await supabase.auth.getSession()
 
     return (
-        <div>
-            <Navbar session={session} />
+        <div className='flex flex-col h-screen'>
+            <Navbar session={session}/>
             <ProfileForm session={session} params={params}/>
         </div>
     )

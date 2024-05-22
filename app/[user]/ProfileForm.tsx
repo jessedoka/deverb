@@ -1,16 +1,14 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Session } from '@supabase/auth-helpers-nextjs';
+import Link from 'next/link';
 import Avatar from '@/components/avatar';
 import Banner from '@/components/banner';
-import { Link2 } from 'lucide-react';
 
 import { useProfileData } from '@/hooks/useProfiledata';
 
-export default function ProfileForm({ session, params }: { session: Session | null; params: { user: string; }; }) {
+export default function ProfileForm({ session, params}: { session: any, params: { user: string }}) {
     const [fullname, setFullname] = useState<string | null>(null);
     const [username, setUsername] = useState<string | null>(null);
-    const [website, setWebsite] = useState<string | null>(null);
     const [avatar_url, setAvatarUrl] = useState<string | null>(null);
     const [banner_url, setBannerUrl] = useState<string | null>(null);
     const [id, setId] = useState<string | null>(null);
@@ -27,7 +25,6 @@ export default function ProfileForm({ session, params }: { session: Session | nu
             setBannerUrl(profileData.banner_url);
             setFullname(profileData.full_name);
             setUsername(profileData.username);
-            setWebsite(profileData.website);
         }
     }, [profileData]);
 
@@ -36,7 +33,7 @@ export default function ProfileForm({ session, params }: { session: Session | nu
     
 
     return (
-        <div>
+        <div className={`ml-4 md:ml-[4.5rem] flex-grow`}>
             <div className='relative'>
                 <div className='h-48 bg-gray-200 dark:bg-gray-800 z-0 w-full'>
                     <Banner
@@ -50,11 +47,11 @@ export default function ProfileForm({ session, params }: { session: Session | nu
                         className='absolute z-0 w-full h-full object-cover' 
                     />
                     {username && (
-                        <span className='md:right-10 md:bottom-20 absolute text-9xl font-semibold text-white'>@{username}</span>
+                        <span className='right-2 md:right-10 bottom-5 md:bottom-20 absolute text-2xl md:text-9xl font-semibold text-white'>@{username}</span>
                     )}
                 </div>
                 <div>
-                    <div className='md:px-64 my-10 item-center'>
+                    <div className='px-2 md:px-8 my-10 item-center ml-3 md:ml-12'>
                         <Avatar
                             uid={params.user}
                             url={avatar_url}
@@ -70,7 +67,7 @@ export default function ProfileForm({ session, params }: { session: Session | nu
             
            <div className='flex-col space-y-5'>
                 <div className="max-w-[87rem] mx-auto p-5">
-                    <div className="flex md:justify-between items-center">
+                    <div className="flex flex-col md:flex-row md:justify-between items-center ml-5 md:ml-20">
 
                         {
                             fullname && (
@@ -79,6 +76,17 @@ export default function ProfileForm({ session, params }: { session: Session | nu
                         }
 
                         <div className="flex space-x-5 ">
+                            <button className='border rounded-lg p-2 space-x-2 flex items-center hover:bg-gray-100 dark:hover:bg-gray-700 duration-500'>
+                                {
+                                    session_id === id ? (
+                                        <Link href='/settings/profile'>
+                                            <span>Settings</span>
+                                        </Link>
+                                    ) : (
+                                        <span>Follow</span>
+                                    )
+                                }
+                            </button>
                             <button>
                                 <label>Following</label>
                                 <div>0</div>
@@ -89,52 +97,10 @@ export default function ProfileForm({ session, params }: { session: Session | nu
                                 <label>Followers</label>
                                 <div>0</div>
                             </button>
-
-                        </div>
-                        
-                    </div>
-                </div>
-
-                <div className="max-w-[87rem] mx-auto px-5">
-                    <div className="flex md:justify-between items-center">
-                        <div className='flex space-x-3'>
-                            <div className='rounded-lg p-2 space-x-2 flex items-center border hover:bg-gray-100 dark:hover:bg-gray-700 duration-500'>
-                                <Link2 size={24} />
-                                <a href={
-                                    website?.startsWith('http') ? website : `https://${website}`
-                                } className='text-blue-500 dark:text-blue-400'>{website}</a>
-                            </div>
-
-                            {/* follow button */}
-                            <div className='border rounded-lg p-2 space-x-2 flex items-center hover:bg-gray-100 dark:hover:bg-gray-700 duration-500'>
-                                {/* follow button */}
-                                <button>
-                                    <span>Follow</span>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div className='border rounded-lg p-2 space-x-2 flex items-center hover:bg-gray-100 dark:hover:bg-gray-700 duration-500'>
-                            {/* edit profile */}
-                            {
-                                session_id === id ? (
-                                    <button>
-                                        <a href='/settings/profile'>
-                                            <span>Edit Profile</span>
-                                        </a>
-                                    </button>
-                                ) : 
-                                (
-                                    <button>
-                                        <span>Message</span>
-                                    </button>
-                                )
-                            }
                         </div>
                     </div>
                 </div>
-
-           </div>
+            </div>
         </div>
     );
 }
