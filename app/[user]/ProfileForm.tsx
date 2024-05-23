@@ -6,13 +6,13 @@ import Banner from '@/components/banner';
 
 import { useProfileData } from '@/hooks/useProfiledata';
 
-export default function ProfileForm({ session, params}: { session: any, params: { user: string }}) {
+export default function ProfileForm({ user, params }: { user: any, params: { user: string }}) {
     const [fullname, setFullname] = useState<string | null>(null);
     const [username, setUsername] = useState<string | null>(null);
     const [avatar_url, setAvatarUrl] = useState<string | null>(null);
     const [banner_url, setBannerUrl] = useState<string | null>(null);
     const [id, setId] = useState<string | null>(null);
-    const session_id = session?.user?.id;
+    const user_id = user?.id;
 
     // Use the custom hook here
     const { profileData, loading, error } = useProfileData(params.user);
@@ -33,7 +33,7 @@ export default function ProfileForm({ session, params}: { session: any, params: 
     
 
     return (
-        <div className={`ml-4 md:ml-[4.5rem] flex-grow`}>
+        <div className={`flex-grow`}>
             <div className='relative'>
                 <div className='h-48 bg-gray-200 dark:bg-gray-800 z-0 w-full'>
                     <Banner
@@ -66,7 +66,7 @@ export default function ProfileForm({ session, params}: { session: any, params: 
             </div>
             
            <div className='flex-col space-y-5'>
-                <div className="max-w-[87rem] mx-auto p-5">
+                <div className="max-w-[91rem] mx-auto p-5">
                     <div className="flex flex-col md:flex-row md:justify-between items-center ml-5 md:ml-20">
 
                         {
@@ -78,7 +78,7 @@ export default function ProfileForm({ session, params}: { session: any, params: 
                         <div className="flex space-x-5 ">
                             <button className='border rounded-lg p-2 space-x-2 flex items-center hover:bg-gray-100 dark:hover:bg-gray-700 duration-500'>
                                 {
-                                    session_id === id ? (
+                                    user_id === id ? (
                                         <Link href='/settings/profile'>
                                             <span>Settings</span>
                                         </Link>

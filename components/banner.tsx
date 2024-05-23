@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { Database } from '@/lib/database.types'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/utils/supabase/client'
 import Image from 'next/image'
 
 type Users = Database['public']['Tables']['users']['Row']
@@ -21,7 +21,7 @@ export default function Banner({
     upload?: boolean
     className?: string
 }) {
-    const supabase = createClientComponentClient<Database>()
+    const supabase = createClient()
     const [bannerUrl, setBannerUrl] = useState<Users['banner_url']>(url)
     const [uploading, setUploading] = useState(false)
 

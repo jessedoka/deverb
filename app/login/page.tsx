@@ -1,54 +1,26 @@
 'use client'
 
 import { useTheme } from "next-themes"
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useState } from "react"
+import { useState, useRef } from "react"
 import HCaptcha from "@hcaptcha/react-hcaptcha"
 import Link from "next/link"
 import Logo from "@/components/logo"
-import { useRouter } from "next/navigation"
-
+import { login, signup } from './actions'
 
 const Login = () => {
-    const supabase = createClientComponentClient()
     const EmailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
-    
-    const [message, setMessage] = useState<[string, boolean]>(['', false])
-    const [loading, setLoading] = useState<boolean>(false)
 
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+    
+    const [message, setMessage] = useState<[string, boolean]>(['', false])
     const [captchaToken, setCaptchaToken] = useState<string>('')
+    const [loading, setLoading] = useState<boolean>(false)
+
+
 
     const { theme } = useTheme()
-    const router = useRouter()
-
-
-    const handleLogin = async (e: any) => {
-        try {
-            e.preventDefault()
-            setLoading(true)
-
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email,
-                password,
-                options: {
-                    captchaToken,
-                }
-            })
-
-            console.log(data)
-
-
-            if (error) throw error
-            router.push(`/home`)
-            
-        } catch (error: any) {
-            setMessage([error.error_description || error.message, true])
-        } finally {
-            setLoading(false)
-        }
-    }
+    const formRef = useRef(null);
 
     return (
         <>
@@ -58,7 +30,6 @@ const Login = () => {
                         <Logo />
                     </Link>
 
-                    {/* message */}
                     {message && (
                         <div className={`px-4 py-2 mb-4 text-sm text-white rounded-md ${message[0] === '' ? '' : (message[1] ? 'bg-green-500' : 'bg-red-500')}`}>
                             {message[0]}
@@ -70,22 +41,38 @@ const Login = () => {
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                 Sign in to your account
                             </h1>
-                            <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
+                            <form className="space-y-4 md:space-y-6" ref={formRef} onSubmit={(e) => {
+                                e.preventDefault();
+                                const formData = formRef.current ? new FormData(formRef.current) : new FormData();
+
+                                const email = formData.get('email') as string;
+                                const password = formData.get('password') as string;
+
+                                if (!EmailRegex.test(email)) {
+                                    setMessage(['Invalid email address', false])
+                                    return
+                                }
+
+                                if (password.length < 6) {
+                                    setMessage(['Password must be at least 6 characters', false])
+                                    return
+                                }
+
+                                setLoading(true)
+                                login(formData, captchaToken);
+                            }}>
                                 <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                                     <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500" placeholder="example@company.com"
-                                        onChange={
-                                            (e) => {
-                                                if (EmailRegex.test(e.target.value)) setEmail(e.target.value)
-                                                else setEmail('')
-                                            }
-                                        }
+                                    required
+                                    onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </div>
                                 <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
                                     <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
-                                        onChange={(e) => setPassword(e.target.value)}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
                                     />
                                 </div>
                                 <div className="flex flex-col items-center">
@@ -103,6 +90,7 @@ const Login = () => {
                                     <Link href="#" className="text-sm font-medium text-orange-600 hover:underline dark:text-orange-500">Forgot password?</Link>
                                 </div>
 
+                                {/*   */}
                                 <button type="submit" className={`w-full text-white bg-orange-400 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800 transition duration-300 ease-in-out ${!email || !password || !captchaToken ? 'opacity-50 cursor-not-allowed' : ''}`}>
                                     {loading ? 'Loading...' : 'Sign in'}
                                 </button>

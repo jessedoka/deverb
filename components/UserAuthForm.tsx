@@ -2,13 +2,13 @@
 
 import { useState } from "react"
 import Logo from "@/components/logo"
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from "@/utils/supabase/client"
 import HCaptcha from "@hcaptcha/react-hcaptcha"
 import Link from "next/link"
 import { useTheme } from "next-themes"
 
 const UserAuthForm = () => {
-    const supabase = createClientComponentClient()
+    const supabase = createClient()
 
     const EmailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
 

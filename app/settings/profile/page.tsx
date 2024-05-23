@@ -8,13 +8,13 @@ export default async function Account() {
     const supabase = createServerComponentClient<Database>({ cookies })
 
     const {
-        data: { session },
-    } = await supabase.auth.getSession()
+        data: { user },
+    } = await supabase.auth.getUser()
 
     return (
         <div>
-            <Navbar session={session} />
-            <AccountForm session={session} />
+            <Navbar user={user} />
+            <AccountForm user={user} />
         </div>    
     )
 }

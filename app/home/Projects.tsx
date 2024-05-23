@@ -1,10 +1,9 @@
 "use client";
 import { useEffect, useState } from 'react';
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import type { Database } from "@/lib/database.types"
+import { createClient } from '@/utils/supabase/client';
 
 const Projects = () => {
-    const supabase = createClientComponentClient<Database>()
+    const supabase = createClient();
 
     // get all projects from projects table
     const [projects, setProjects] = useState<any>([]);

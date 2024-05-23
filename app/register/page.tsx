@@ -2,26 +2,26 @@
 
 import { useState } from "react"
 import Logo from "@/components/logo"
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from "@/utils/supabase/client"
 import HCaptcha from "@hcaptcha/react-hcaptcha"
 import Link from "next/link"
 import { useTheme } from "next-themes"
 import Navbar from "@/components/Navbar"
 
 const Register = () => {
-    const supabase = createClientComponentClient()
+    const supabase = createClient()
 
     const EmailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
 
     // message should be an array with string and number ""
     const [message, setMessage] = useState<[string, boolean]>(['', false])
-    const [subMessage, setSubMessage] = useState < [string, boolean | null]>(['', null])
+    const [subMessage, setSubMessage] = useState<[string, boolean | null]>(['', null])
     const [loading, setLoading] = useState<boolean>(false)
-    
+
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [passwordConfirm, setPasswordConfirm] = useState<string>('')
-    
+
 
     const [captchaToken, setCaptchaToken] = useState<string>('')
     const { theme } = useTheme()
@@ -36,7 +36,7 @@ const Register = () => {
             }
 
             const { data, error } = await supabase.auth.signUp({
-                email, 
+                email,
                 password,
                 options: {
                     emailRedirectTo: `${location.origin}auth/callback`,
@@ -53,13 +53,13 @@ const Register = () => {
         }
     }
 
-    
+
     return (
         <>
             <section className="bg-gray-50 dark:bg-gray-900">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                     <Link href="/" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                        <Logo force={false}/>
+                        <Logo force={false} />
                     </Link>
 
                     {/* message */}
@@ -68,7 +68,7 @@ const Register = () => {
                             {message[0]}
                         </div>
                     )}
-                    
+
                     <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -99,7 +99,7 @@ const Register = () => {
                                 <div>
                                     {/* sub message */}
                                     {subMessage && (
-                                        <div className={`mb-4 text-sm rounded-md  ${subMessage[1]  ? 'text-red-500' : 'text-green-500'}`}>
+                                        <div className={`mb-4 text-sm rounded-md  ${subMessage[1] ? 'text-red-500' : 'text-green-500'}`}>
                                             {subMessage[0]}
                                         </div>
                                     )}
@@ -151,7 +151,7 @@ const Register = () => {
                                 </p>
                             </form>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </section>
         </>

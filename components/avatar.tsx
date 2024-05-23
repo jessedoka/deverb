@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { Database } from '@/lib/database.types'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/utils/supabase/client'
 import Image from 'next/image'
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 
@@ -22,7 +22,7 @@ export default function Avatar({
     upload?: boolean
     className?: string
 }) {
-    const supabase = createClientComponentClient<Database>()
+    const supabase = createClient()
     const [avatarUrl, setAvatarUrl] = useState<Users['avatar_url']>(url)
     const [uploading, setUploading] = useState(false)
     const [error, setError] = useState<string | null>(null)
