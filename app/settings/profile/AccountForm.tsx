@@ -1,13 +1,12 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
-import type { Database } from "@/lib/database.types";
-import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from "@/utils/supabase/client";
 import Avatar from '@/components/avatar';
 import Banner from '@/components/banner';
 
 
-export default function AccountForm({ session }: { session: Session | null; }) {
-    const supabase = createClientComponentClient<Database>();
+export default function AccountForm({ user }: { user: any }) {
+    const supabase = createClient();
     const [loading, setLoading] = useState(true);
     const [fullname, setFullname] = useState<string | null>(null);
     const [username, setUsername] = useState<string | null>(null);
@@ -15,7 +14,6 @@ export default function AccountForm({ session }: { session: Session | null; }) {
     const [avatar_url, setAvatarUrl] = useState<string | null>(null);
     const [banner_url, setBannerUrl] = useState<string | null>(null);
     const [error, setError] = useState(null);
-    const user = session?.user;
 
     const getProfile = useCallback(async () => {
         try {

@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { Database } from "@/lib/database.types";
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from "@/utils/supabase/client";
 
 type ProfileData = {
   id: string;
@@ -16,7 +15,7 @@ export function useProfileData(username: string) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
 
-    const supabase = createClientComponentClient<Database>();
+    const supabase = createClient();
 
     const getProfile = useCallback(async () => {
         try {
@@ -28,16 +27,16 @@ export function useProfileData(username: string) {
             query = query.eq('username', username);
         } else {
             const {
-                data: { session },
+                data: { user },
                 error,
-            } = await supabase.auth.getSession();
+            } = await supabase.auth.getUser()
 
             if (error) {
                 throw new Error(error.message);
             }
 
-            if (session) {
-                query = query.eq('id', session?.user?.id);
+            if (user) {
+                query = query.eq('id', user?.id);
             }
         }
 

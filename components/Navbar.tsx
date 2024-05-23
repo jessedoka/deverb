@@ -3,22 +3,19 @@ import { useCallback, useEffect, useState } from 'react';
 import Logo from '@/components/logo';
 import Link from 'next/link';
 import { ModeToggle } from "./ModeToggle";
-import { Session } from '@supabase/auth-helpers-nextjs';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import type { Database } from '@/lib/database.types';
+import { createClient } from '@/utils/supabase/client';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserCircleIcon } from '@heroicons/react/24/solid'
-import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { data } from 'autoprefixer';
 
-export default function Navbar({ session }: { session: Session | null; }) {
-    const supabase = createClientComponentClient<Database>();
-    const user = session?.user;
+export default function Navbar({ user }: { user: any }) {
+    const supabase = createClient();
 
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
     const [username, setUsername] = useState<string | null>(null);
@@ -71,7 +68,7 @@ export default function Navbar({ session }: { session: Session | null; }) {
     };
 
 
-    const menu = session ? [
+    const menu = user ? [
         {
             title: <div>
                 <DropdownMenu>
@@ -87,7 +84,7 @@ export default function Navbar({ session }: { session: Session | null; }) {
                         </Avatar>
                     </DropdownMenuTrigger>
                     {/* appear vertically on the right side */}
-                    <DropdownMenuContent side='right' className='ml-5'>
+                    <DropdownMenuContent align='center'>
                         <DropdownMenuItem>
                             {/* disable if username is null */}
                             <Link href={`/${username}`} className={`${!username ? 'pointer-events-none opacity-20' : ''}`}>
@@ -108,28 +105,60 @@ export default function Navbar({ session }: { session: Session | null; }) {
 
     return (
 
-        <aside className="h-screen fixed left-0 top-0 overflow-auto flex flex-col justify-between p-4 border-r">
-            <Link href='/' className={`${!username ? 'pointer-events-none opacity-20 duration-100' : ''}`}>
-                <Logo className="hover:p-1 duration-500"/>
-            </Link>
+        <nav>
+            <div className="mx-auto p-5">
+                <div className="flex md:justify-between justify-center">
+                    <div className='flex items-center space-x-4'>
+                        <Link href='/' className={`${!username ? 'pointer-events-none opacity-20 duration-100' : ''}`}>
+                            <Logo />
+                        </Link>
+                    </div>
 
-            <div className='flex flex-col space-y-4'>
-                {menu.map((item, index) => (
-                    <Link href={item.path ?? ''} key={index}>
-                        {typeof item.title === 'string' ? (
-                            <span className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 block transition duration-1000 px-3 py-2 rounded-md font-medium'>
-                                {item.title}
-                            </span>
-                        ) : (
-                            <span className=''>
-                                {item.title}
-                            </span>
-                        )}
-                    </Link>
-                ))}
+                    {/* add a div here for a middle section */}
 
-                <ModeToggle />
+                    {/* desktop view */}
+                    <div className='hidden md:block'>
+                        <div className='flex space-x-4 items-center'>
+                            {menu.map((item, index) => (
+                                <Link href={item.path ?? ''} key={index}>
+                                    {/* check if child is an image */}
+                                    {typeof item.title === 'string' ? (
+                                        <span className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 block transition duration-1000 px-3 py-2 rounded-md font-medium'>
+                                            {item.title}
+                                        </span>
+                                    ) : (
+                                        <span className=''>
+                                            {item.title}
+                                        </span>
+                                    )}
+                                </Link>
+                            ))}
+
+                            <ModeToggle />
+                        </div>
+                    </div>
+                </div>
+                {/* mobile view */}
+                <div className='md:hidden flex justify-center mt-4 space-x-2'>
+                    <ModeToggle />
+                    <div className='flex space-x-3'>
+                        {menu.map((item, index) => (
+                            <Link href={item.path ?? ''} key={index}>
+                                {/* check if child is an image */}
+                                {typeof item.title === 'string' ? (
+                                    <span className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 block transition duration-1000 px-3 py-2 rounded-md font-medium border'>
+                                        {item.title}
+                                    </span>
+                                ) : (
+                                    <span className=''>
+                                        {item.title}
+                                    </span>
+                                )}
+                            </Link>
+                        ))}
+                    </div>
+                </div>
             </div>
-        </aside>
+        </nav>
     );
 }

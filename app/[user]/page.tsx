@@ -1,20 +1,18 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
-import { Database } from '@/lib/database.types'
+import { createClient } from '@/utils/supabase/server'
 import ProfileForm from './ProfileForm'
 import Navbar from '@/components/Navbar'
 
 export default async function Profile({params}: {params: {user: string}}) {
-    const supabase = createServerComponentClient<Database>({ cookies })
+    const supabase = createClient()
 
     const {
-        data: { session },
-    } = await supabase.auth.getSession()
+        data: { user },
+    } = await supabase.auth.getUser()
 
     return (
         <div className='flex flex-col h-screen'>
-            <Navbar session={session}/>
-            <ProfileForm session={session} params={params}/>
+            <Navbar user={user}/>
+            <ProfileForm user={user} params={params}/>
         </div>
     )
 }

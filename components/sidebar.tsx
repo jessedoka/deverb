@@ -6,7 +6,7 @@ import Banner from '@/components/banner';
 import { BellRing, Check } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
 import { cn } from "@/lib/utils"
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from "@/utils/supabase/client";
 import type { Database } from '@/lib/database.types';
 import { useProfileData } from '@/hooks/useProfiledata';
 import {
@@ -28,7 +28,7 @@ export default function Sidebar({ className, ...props }: CardProps) {
     const [banner_url, setBannerUrl] = useState<string | null>(null);
     const [id, setId] = useState<string | null>(null);
 
-    const supabase = createClientComponentClient<Database>();
+    const supabase = createClient();
 
     // Use the custom hook here
     const { profileData } = useProfileData('');
