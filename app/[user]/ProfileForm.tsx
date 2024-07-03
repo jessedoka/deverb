@@ -5,6 +5,7 @@ import Avatar from '@/components/avatar';
 import Banner from '@/components/banner';
 
 import { useProfileData } from '@/hooks/useProfiledata';
+import { buttonVariants } from "@/components/ui/button";
 
 export default function ProfileForm({ user, params }: { user: any, params: { user: string }}) {
     const [fullname, setFullname] = useState<string | null>(null);
@@ -76,17 +77,15 @@ export default function ProfileForm({ user, params }: { user: any, params: { use
                         }
 
                         <div className="flex space-x-5 ">
-                            <button className='border rounded-lg p-2 space-x-2 flex items-center hover:bg-gray-100 dark:hover:bg-gray-700 duration-500'>
-                                {
-                                    user_id === id ? (
-                                        <Link href='/settings/profile'>
-                                            <span>Settings</span>
-                                        </Link>
-                                    ) : (
-                                        <span>Follow</span>
-                                    )
-                                }
-                            </button>
+                            {
+                                user_id === id ? (
+                                    <Link href='/settings/profile' className={`${buttonVariants({ variant: "outline" })} hover:bg-gray-200 dark:hover:bg-zinc-700 dark:bg-zinc-900 border-none`}>
+                                        <span>Settings</span>
+                                    </Link>
+                                ) : (
+                                    <span>Follow</span>
+                                )
+                            }
                             <button>
                                 <label>Following</label>
                                 <div>0</div>

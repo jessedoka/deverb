@@ -83,7 +83,7 @@ export default function AccountForm({ user }: { user: any }) {
     }
 
     return (
-        <main className='bg-gray-50 dark:bg-gray-900 p-5'>
+        <main className='bg-gray-50 dark:bg-zinc-900 p-5'>
             {/* check if an account exists for the user */}
             {!user && (
                 <div className='text-center'>
@@ -97,9 +97,9 @@ export default function AccountForm({ user }: { user: any }) {
                 </div>
             )}
             <div className="flex-col items-center justify-center mx-auto max-w-4xl">
-                <div className="border-b border-gray-900/10 dark:border-gray-400 pb-12 mb-5">
-                    <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-white">Profile</h2>
-                    <p className="mt-1 text-sm leading-6 text-gray-600">
+                <div className="border-b border-zinc-900/10 dark:border-zinc-400 pb-12 mb-5">
+                    <h2 className="text-base font-semibold leading-7 text-zinc-900 dark:text-white">Profile</h2>
+                    <p className="mt-1 text-sm leading-6 text-zinc-600">
                         This information will be displayed publicly so be careful what you share.
                     </p>
 
@@ -136,7 +136,7 @@ export default function AccountForm({ user }: { user: any }) {
                                     id="about"
                                     name="about"
                                     rows={3}
-                                    className="block w-full rounded-md bg-white dark:bg-slate-900 border-0 py-1.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md bg-white border-0 py-1.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6 dark:bg-zinc-900"
                                     defaultValue={description || ''}
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
@@ -212,7 +212,7 @@ export default function AccountForm({ user }: { user: any }) {
                                     id="fullName"
                                     autoComplete="given-name"
                                     className="block w-full rounded-md 
-                                    bg-white dark:bg-slate-900 border-0 py-1.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6"
+                                    bg-white dark:bg-zinc-900 border-0 py-1.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6"
                                     value={fullname || ''}
                                     onChange={(e) => setFullname(e.target.value)}
 
@@ -231,9 +231,8 @@ export default function AccountForm({ user }: { user: any }) {
                                     type="email"
                                     autoComplete="email"
                                     className="block w-full rounded-md 
-                                    bg-white dark:bg-slate-900 
-                                    text-gray-900 dark:text-white 
-                                    border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6"
+                                    bg-white text-gray-900 dark:text-white 
+                                    border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6 dark:bg-zinc-900"
                                     disabled={true}
                                 />
                             </div>

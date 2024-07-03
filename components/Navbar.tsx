@@ -69,11 +69,14 @@ export default function Navbar({ user }: { user: any }) {
 
 
     const menu = user ? [
+        { title: 'Home', path: '/' },
+        { title: 'Explore', path: '/explore' },
+        { title: 'Create', path: '/create' },
         {
             title: <div>
                 <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Avatar className='hover:cursor-pointer hover:p-1 hover:bg-neutral-800  duration-300'>
+                    <DropdownMenuTrigger asChild >
+                        <Avatar className='hover:cursor-pointer hover:p-1 duration-300'>
                             {avatarUrl ? (
                                 <AvatarImage src={avatarUrl} className='rounded-full' />
                             ) : (
@@ -84,7 +87,7 @@ export default function Navbar({ user }: { user: any }) {
                         </Avatar>
                     </DropdownMenuTrigger>
                     {/* appear vertically on the right side */}
-                    <DropdownMenuContent align='center'>
+                    <DropdownMenuContent align='center' >
                         <DropdownMenuItem>
                             {/* disable if username is null */}
                             <Link href={`/${username}`} className={`${!username ? 'pointer-events-none opacity-20' : ''}`}>

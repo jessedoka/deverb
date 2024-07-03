@@ -9,12 +9,7 @@ import { ModeToggle } from "@/components/ModeToggle"
 
 export default function Landing(){
   return (
-    <>
-      <div className="md:hidden">
-        <Link href='/'>
-          <Logo force={true}/>
-        </Link>
-      </div>
+    <main>
       <div className="container relative h-screen hidden flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
           href="/login"
@@ -32,7 +27,6 @@ export default function Landing(){
             <Logo force={true}/>
             <ModeToggle />
           </div>
-          
           
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
@@ -74,9 +68,6 @@ export default function Landing(){
           </div>
         </div>
       </div>
-    </>
+    </main>
   )
 }
-
-
-

@@ -23,7 +23,7 @@ export function ModeToggle(): React.JSX.Element {
                     <span className="sr-only">Toggle theme</span>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent side='right' className='ml-5'>
+            <DropdownMenuContent align="center">
                 <DropdownMenuItem onClick={() => setTheme("light")}>
                     Light
                 </DropdownMenuItem>

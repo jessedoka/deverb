@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from "react"
-import Logo from "@/components/logo"
 import { createClient } from "@/utils/supabase/client"
 import HCaptcha from "@hcaptcha/react-hcaptcha"
 import Link from "next/link"
